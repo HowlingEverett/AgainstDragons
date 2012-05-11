@@ -1,0 +1,10 @@
+Against Dragons is a simple toolkit for researchers and other folk who want to
+work with geospatial survey data. It provides a researcher dashboard for working
+with and exporting survey data, and an API for capturing and working with
+GPS data: currently limited to the kind of data you can read from smartphone
+GPS/Mapping systems.
+
+It's made with Python and Javascript over the GeoDjango framework, and thus
+supports all of the geospatial database systems supported by that fine
+framework. At the moment, the examples are configured to work with Postgres 9,
+PostGIS 2.0, Proj 4, and GDal.
