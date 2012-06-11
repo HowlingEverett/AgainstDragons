@@ -40,10 +40,11 @@ def create_virtualenv():
     
     with cd(code_dir):
         run('source bin/activate')
-        run('pip install django')
+        run('pip install -I django')
+        sudo('pip install -I gunicorn')
         sudo('apt-get install python-dev')
-        sudo('pip install psycopg2')
-        sudo('pip install pil')
+        sudo('pip install -I psycopg2')
+        sudo('pip install -I pil')
 
 def create_database():
     sudo('su postgres -c "createdb -T template_postgis againstdragons"')
