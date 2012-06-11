@@ -53,6 +53,8 @@ def create_database():
 def create_initd():
     with cd(env.project_root):
         sudo('mv deploy/againstdragons_initd /etc/init.d/againstdragons')
+        sudo('chmod 755 /etc/init.d/againstdragons')
+        sudo('/etc/init.d/againstdragons start')
     
 
 def configure_deployment():
