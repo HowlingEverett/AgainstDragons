@@ -48,7 +48,11 @@ def create_virtualenv():
 def create_database():
     sudo('su postgres -c "createdb -T template_postgis againstdragons"')
     sudo('su postgres -c "createuser -d -P -R -S againstdragons"')
-    sudo('su postgres -c "psql -c \"GRANT ALL ON DATABASE againstdragons TO againstdragons;\""')
+    sudo('su postgres -c "psql -c \'GRANT ALL ON DATABASE againstdragons TO againstdragons;\'"')
+
+def create_initd():
+    with cd(env.project_root):
+        sudo('mv deploy/againstdragons_initd /etc/init.d/againstdragons')
     
 
 def configure_deployment():
@@ -65,7 +69,10 @@ def deploy():
         if result.failed:
             create_virtualenv()
             create_database()
-    
-    unarchive_latest()
-    configure_deployment()
+        
+        unarchive_latest()    
+        if result.failed:
+            create_initd()
+        
+        configure_deployment()
     
