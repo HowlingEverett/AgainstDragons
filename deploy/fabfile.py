@@ -2,7 +2,8 @@ from fabric.api import *
 from fabric.contrib.console import confirm
 
 env.hosts = ['usdlc.net']
-env.users = ['justin']
+env.user = 'justin'
+env.password = 'tmtinfbmo11!'
 env.project_root = '/home/justin/sites/againstdragons.usdlc.net/againstdragons'
 
 def test():
@@ -29,33 +30,41 @@ def unarchive_latest():
     with cd(repo_dir):
         run("wget --no-check-certificate https://github.com/HowlingEverett/AgainstDragons/tarball/master")
         run("rm -rf %s" % env.project_root)
-        run("tar xvzf master && mv HowlingEverett-Snapshots* %s" % env.project_root)
+        run("tar xvzf master && mv HowlingEverett-AgainstDragons* %s" % env.project_root)
         run("rm -rf master")
-        run("mv %s/deploy/settings.py %s/snapshots/settings.py" % (env.project_root, env.project_root))
+        run("mv %s/deploy/settings.py %s/againstdragons/settings.py" % (env.project_root, env.project_root))
 
 def create_virtualenv():
-    with cd('cd /home/justin/sites'):
+    with cd('/home/justin/sites'):
         run('virtualenv --no-site-packages againstdragons.usdlc.net')
     
     with cd(code_dir):
         run('source bin/activate')
         run('pip install django')
-        run('pip install psycopg2')
-        run('pip install pil')
-        run('su postgres -c "createdb -T template_postgis againstdragons"')
+        sudo('apt-get install python-dev')
+        sudo('pip install psycopg2')
+        sudo('pip install pil')
+
+def create_database():
+    sudo('su postgres -c "createdb -T template_postgis againstdragons"')
+    sudo('su postgres -c "createuser -d -P -R -S againstdragons"')
+    sudo('su postgres -c "psql -c \"GRANT ALL ON DATABASE againstdragons TO againstdragons;\""')
+    
 
 def configure_deployment():
     with cd(env.project_root):
         run("source ../bin/activate")
-        run("chmod 755 manage.py")
+        sudo("chmod 755 manage.py")
         run("./manage.py collectstatic -v0 --noinput")
-        run("su root -c '/etc/init.d/snapshots reload'")
+        sudo("/etc/init.d/againstdragons reload")
         
 
 def deploy():
-    result = run('cd %s' % env.project_root)
-    if not result.failed:
-        create_virtualenv()
+    with settings(warn_only=True):
+        result = run('cd %s' % env.project_root)
+        if result.failed:
+            create_virtualenv()
+            create_database()
     
     unarchive_latest()
     configure_deployment()

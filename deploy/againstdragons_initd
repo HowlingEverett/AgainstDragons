@@ -1,0 +1,68 @@
+#!/bin/sh 
+
+### BEGIN INIT INFO
+# Provides:       againstdragons 
+# Required-Start: $local_fs $syslog
+# Required-Stop:  $local_fs $syslog
+# Default-Start:  2 3 4 5
+# Default-Stop:   0 1 6
+# Short-Description: Gunicorn processes for againstdragons 
+### END INIT INFO
+
+# www-data is the default www user on debian
+USER=www-data
+NAME="againstdragons"
+GUNICORN_RUN="python manage.py run_gunicorn -D -p /tmp/gunicorn_"$NAME".pid 127.0.0.1:9006"
+# Confdir: the Django project inside the virtualenv
+CONFDIR="/home/justin/sites/againstdragons.usdlc.net/againstdragons"
+VENV_ACTIVATION=". ../bin/activate"
+RETVAL=0
+# PID: I always name my gunicorn pidfiles this way
+PID="/tmp/gunicorn_"$NAME".pid"
+
+# source function library
+. /lib/lsb/init-functions
+
+
+start()
+{
+    echo "Starting $NAME."
+    cd $CONFDIR;
+    su -c "$VENV_ACTIVATION; $GUNICORN_RUN" $USER && echo "OK" || echo "failed";
+}
+
+stop()
+{
+    echo "Stopping $NAME"
+    kill -QUIT `cat $PID` && echo "OK" || echo "failed";
+}
+
+reload()
+{
+    echo "Reloading $NAME:"
+    if [ -f $PID ]
+    then kill -HUP `cat $PID` && echo "OK" || echo "failed";
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        reload
+        ;;
+    reload)
+        reload
+        ;;
+    force-reload)
+        stop && start
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        RETVAL=1
+esac
+exit $RETVAL
