@@ -1,11 +1,11 @@
 from django.contrib.gis.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class GeographicalSample(models.Model):
     """ Represents a single geographical point sample in a survey, retrieved
-    from a GPS device such as a navigator or smartphone.
+        from a GPS device such as a navigator or smartphone.
 
     """
     location = models.PointField()
@@ -17,12 +17,13 @@ class GeographicalSample(models.Model):
     location_accuracy = models.FloatField()
     heading_accuracy = models.FloatField(null=True, blank=True,
         validators=[MinValueValidator(0), MaxValueValidator(360)])
-    leg = models.ForeignKey('Leg', null=True, blank=True)
+    trip = models.ForeignKey('Trip', null=True, blank=True)
     participant = models.ForeignKey(User)
     objects = models.GeoManager()
     
     class Meta:
         unique_together = (('timestamp', 'participant'),)
+        get_latest_by = 'timestamp'
 
     def __unicode__(self):
         return "Point({0}, {1}) at {2}".format(
@@ -38,10 +39,9 @@ class GeographicalSample(models.Model):
             self.clean_heading()
         super(GeographicalSample, self).clean()
 
-
-class Leg(models.Model):
-    """ Represents a collection of samples that make up a single leg in a single
-    
+class Transport(models.Model):
+    """ Model representing a mode of transport applicable to a trip. Each trip can
+        have multiple modes of transport, so this is a many-to-many relationship.
     """
     TRANSPORT_CHOICES = (
         ('C', 'Private Vehicle'),
@@ -50,18 +50,62 @@ class Leg(models.Model):
         ('PT', 'Public Transport'),
         ('T', 'Taxi')
     )
+    mode = models.CharField(max_length=2, choices=TRANSPORT_CHOICES)
     
-    timestamp = models.DateTimeField()
+    def __unicode__(self):
+        return self.get_mode_display()
+
+
+class Trip(models.Model):
+    """ Represents a collection of samples that make up a single leg in a single
+    
+    """
+    date = models.DateField()
     duration = models.FloatField(validators=[MinValueValidator(0.01)])
     path = models.LineStringField()
-    transport = models.CharField(max_length=2, choices=TRANSPORT_CHOICES)
+    transport_modes = models.ManyToManyField('Transport')
     participant = models.ForeignKey(User)
+    survey = models.ForeignKey('Survey')
     objects = models.GeoManager()
     
     def __unicode__(self):
-        return "{0} leg starting at {1} with a {0} minute duration".format(
-            self.get_transport_display(), self.timestamp, self.duration
+        return "Leg starting at {1} with a {0} minute duration".format(
+                self.timestamp, self.duration)
+                
+    class Meta:
+        get_latest_by = 'timestamp'
+        permissions = (
+            ('view_trip', "Can view the trip and its sample data"),
         )
+        
+class Survey(models.Model):
+    """ Represents a geographical survey, with a defined 
+    
+    """
+    start_date = models.DateField()
+    end_date = models.DateField()
+    title = models.CharField(max_length=144)
+    managed_by = models.ForeignKey(User)
+
+    class Admin:
+        list_display = ('',)
+        search_fields = ('',)
+    
+    class Meta:
+        permissions = (
+            ("view_survey", "Can see this survey and its data"),
+            ("cancel_survey", "Can deactivate this survey and close it for new data"),
+        )
+
+    def __unicode__(self):
+        return u"Survey: {0}. Managed by {1} {2}.".format(self.title, 
+                self.managed_by.first_name, self.managed_by.last_name)
+                
+class Researchers(Group):
+    """ Holds the permis
+    
+    """
+    pass
 
 # Model tests
 from django.test import TestCase
