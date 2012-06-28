@@ -17,7 +17,7 @@ class GeographicalSample(models.Model):
     location_accuracy = models.FloatField()
     heading_accuracy = models.FloatField(null=True, blank=True,
         validators=[MinValueValidator(0), MaxValueValidator(360)])
-    trip = models.ForeignKey('Trip', null=True, blank=True)
+    trip = models.ForeignKey('Trip')
     participant = models.ForeignKey(User)
     objects = models.GeoManager()
     
@@ -61,8 +61,9 @@ class Trip(models.Model):
     
     """
     date = models.DateField()
+    description = models.CharField(max_length=100)
     duration = models.FloatField(validators=[MinValueValidator(0.01)])
-    path = models.LineStringField()
+    path = models.LineStringField(null=True,blank=True)
     transport_modes = models.ManyToManyField('Transport')
     participant = models.ForeignKey(User)
     survey = models.ForeignKey('Survey')
@@ -75,7 +76,7 @@ class Trip(models.Model):
     class Meta:
         get_latest_by = 'timestamp'
         permissions = (
-            ('view_trip', "Can view the trip and its sample data"),
+            ('view_trip', "Can view the trip"),
         )
         
 class Survey(models.Model):
@@ -93,12 +94,12 @@ class Survey(models.Model):
     
     class Meta:
         permissions = (
-            ("view_survey", "Can see this survey and its data"),
-            ("cancel_survey", "Can deactivate this survey and close it for new data"),
+            ("view_survey", "Can see this survey"),
+            ("cancel_survey", "Can deactivate this survey"),
         )
 
     def __unicode__(self):
-        return u"Survey: {0}. Managed by {1} {2}.".format(self.title, 
+        return u"{0}. Managed by {1} {2}.".format(self.title, 
                 self.managed_by.first_name, self.managed_by.last_name)
                 
 class Researchers(Group):
@@ -112,13 +113,23 @@ from django.test import TestCase
 from django.contrib.gis.geos import Point, LineString
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
-from datetime import datetime
+from datetime import datetime, date
 from django.utils.timezone import utc
 
 class GeoSurveyModelTests(TestCase):
+    fixtures = ['initial_data.json']
+    
     def setUp(self):
         self.participant = User.objects.create_user(
             'john', 'lennon@thebeatles.com', 'johnpassword'
+        )
+        self.survey = Survey.objects.latest('end_date')
+        self.trip = Trip.objects.create(
+            date=datetime.today().date(),
+            description="Test trip",
+            duration=31.5,
+            participant=self.participant,
+            survey=self.survey
         )
         
         
@@ -128,14 +139,16 @@ class GeoSurveyModelTests(TestCase):
             location = Point(30.236045, 51.261926, srid=4326),
             timestamp = datetime(2012, 2, 25, 9, 0).replace(tzinfo=utc),
             location_accuracy = 35.5,
-            participant = self.participant
+            participant = self.participant,
+            trip = self.trip
         )
         with self.assertRaises(IntegrityError):
             sample2 = GeographicalSample.objects.create(
                 location = Point(30.236045, 51.261926, srid=4326),
                 timestamp = datetime(2012, 2, 25, 9, 0).replace(tzinfo=utc),
                 location_accuracy = 35.5,
-                participant = self.participant
+                participant = self.participant,
+                trip = self.trip
             )
     
     def test_heading_accuracy_constraint(self):
@@ -145,7 +158,8 @@ class GeoSurveyModelTests(TestCase):
             timestamp = datetime(2012, 2, 25, 9, 0).replace(tzinfo=utc),
             location_accuracy = 35.5,
             heading = 95.3,
-            participant = self.participant
+            participant = self.participant,
+            trip=self.trip
         )
         with self.assertRaises(ValidationError):
             sample.clean()
@@ -157,7 +171,8 @@ class GeoSurveyModelTests(TestCase):
             location_accuracy = 35.5,
             heading = 95.3,
             heading_accuracy = 15.5,
-            participant = self.participant
+            participant = self.participant,
+            trip = self.trip
         )
         try:
             sample2.clean()

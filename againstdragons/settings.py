@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Justin Marrington', 'justin@marrington.net'),
 )
 
 MANAGERS = ADMINS
@@ -105,7 +105,7 @@ ROOT_URLCONF = 'againstdragons.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'againstdragons.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/justin/Desktop/againstdragons/templates',)
+TEMPLATE_DIRS = ('/Users/justin/dev/againstdragons/againstdragons/againstdragons/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'gunicorn',
     'geosurvey',
+    'api',
     'dashboard',
 )
 
