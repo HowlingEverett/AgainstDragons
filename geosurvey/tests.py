@@ -6,30 +6,19 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from django.test.client import Client
-from django.
 
-def load_payload_file(filename):
-    return open(filename, 'r').read()
-    
-    
 
+<<<<<<< Local Changes
 class BatchUploadTest(TestCase):
-    def setUp(self):
-        self.client = Client()
-        
+    fixtures = ['initial_data.json',]
     
     def test_single_trip_upload(self):
         """ Test a batch upload for samples for a single trip with valid data.
+=======
+class SimpleTest(TestCase):
+    def test_basic_addition(self):
+>>>>>>> External Changes
         """
-        try:
-            payload = load_payload_file('fixtures/valid_request_payload.json')
-        except IOError:
-            self.fail("Couldn't load payload data for test request - is the path correct?")
-        
-        response = self.client.post('/batch_upload/', 
-                load_payload_file('fixtures/valid_request_payload.json'),
-                content_type="text/json")
-        
-        self.assertEqual(response.status_code, 200)
-        
+        Tests that 1 + 1 always equals 2.
+        """
+        self.assertEqual(1 + 1, 2)
