@@ -1,4 +1,5 @@
 # Create your views here.
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic.base import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -36,6 +37,19 @@ class JSONAPIResponseMixin(BaseAPIResponseMixin):
             
         """
         return HttpResponse(json.dumps(success_dict), content_type="text/json")
+
+class APILoginView(JSONAPIResponseMixin, View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            login(request, user)
+            return self.success_response({'success': 'User logged in.'})
+        else:
+            return self.error_response({'error': 'Incorrect username or password.'})
+
 
 class BatchSampleUploadView(JSONAPIResponseMixin, View):
     """ Performs a batch create of GeographicalSamples for a single trip

@@ -22,7 +22,7 @@ class GeographicalSample(models.Model):
     objects = models.GeoManager()
     
     class Meta:
-        unique_together = (('timestamp', 'participant'),)
+        unique_together = (('timestamp', 'participant', 'location'),)
         get_latest_by = 'timestamp'
 
     def __unicode__(self):

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Register new user
+{% endblock %}
+
+{% block content %}
+<h1>Register for ATLAS Survey</h1>
+
+<form action="" method="post" id="registration_form">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <input type="submit" value="Register">
+</form>
+{% endblock %}
