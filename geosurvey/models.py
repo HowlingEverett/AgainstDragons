@@ -22,7 +22,7 @@ class GeographicalSample(models.Model):
     objects = models.GeoManager()
     
     class Meta:
-        unique_together = (('timestamp', 'participant', 'location'),)
+#        unique_together = (('timestamp', 'participant', 'location'),)
         get_latest_by = 'timestamp'
 
     def __unicode__(self):
@@ -97,6 +97,7 @@ class Survey(models.Model):
             ("view_survey", "Can see this survey"),
             ("cancel_survey", "Can deactivate this survey"),
         )
+
 
     def __unicode__(self):
         return u"{0}. Managed by {1} {2}.".format(self.title, 

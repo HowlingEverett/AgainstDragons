@@ -1,5 +1,6 @@
 # Create your views here.
 from django.contrib.auth import authenticate, login, logout
+from django.core import serializers
 from django.views.generic.base import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -7,7 +8,7 @@ from django.utils import simplejson as json
 from datetime import datetime, date
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.gis.geos import Point
@@ -48,6 +49,7 @@ class APILoginView(JSONAPIResponseMixin, View):
             login(request, user)
             return self.success_response({'success': 'User logged in.'})
         else:
+            return HttpResponse
             return self.error_response({'error': 'Incorrect username or password.'})
 
 
@@ -106,6 +108,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         trip = Trip(
             date=datetime.strptime(trip_dict['date'], '%Y-%m-%d').date(),
             duration=float(trip_dict['duration']),
+            description=trip_dict['description'],
             participant=request.user,
             survey=Survey.objects.get(pk=trip_dict['survey_id'])
         )
@@ -135,3 +138,11 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
 class ApiIndexView(TemplateView):
     template_name='api/index.html'  
     
+class SurveyListView(View):
+
+    @method_decorator(require_GET)
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        surveys = Survey.objects.filter(end_date__gte=datetime.today()).order_by('end_date')
+        return HttpResponse(serializers.serialize('json', surveys), content_type='text/json')
+
