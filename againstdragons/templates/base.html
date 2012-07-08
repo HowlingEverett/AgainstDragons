@@ -2,60 +2,80 @@
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-	
- 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>ATLAS Researcher Dashboard — {% block title %}{% endblock title %}</title>
-	<meta name="description" content="">
 
-	<meta name="viewport" content="width=device-width">
-	
-	{% load compress %}
-	{% compress css %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}css/smoothness/jquery-ui-1.8.21.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	{% block css %}
-	
-	{% endblock css %}
-	{% endcompress %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="description" content="">
 
-	<script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3.min.js"></script>
+    <meta name="viewport" content="width=device-width">
+
+    {# Typekit #}
+    <script type="text/javascript"
+            src="http://use.typekit.com/pec6cko.js"></script>
+    <script type="text/javascript">try {
+        Typekit.load();
+    } catch (e) {
+    }</script>
+
+    {% load compress %}
+    {% compress css %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css"
+              media="screen" type="text/css">
+        <link rel="stylesheet"
+              href="{{ STATIC_URL }}css/smoothness/jquery-ui-1.8.21.custom.css"
+              type="text/css" media="screen" title="no title" charset="utf-8">
+        {% block css %}
+
+        {% endblock css %}
+    {% endcompress %}
+
+    <script src="{{ STATIC_URL }}js/libs/modernizr-2.5.3.min.js"></script>
+
 </head>
-<body>
-	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-	<header>
-		{% block header %}
-		
-		{% endblock header %}
-	</header>
-	<div role="main">
-		{% block content %}{% endblock content %}
-	</div>
-	<footer>
-		{% block footer %}{% endblock footer %}
-	</footer>
+<body id="{% block page_id %}{% endblock %}">
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
+<![endif]-->
+<div class="container">
+    <header>
+        {% block header %}
+
+        {% endblock header %}
+    </header>
+    <div role="main">
+        {% block content %}{% endblock content %}
+    </div>
+    <footer>
+        {% block footer %}{% endblock footer %}
+    </footer>
+
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="{{ STATIC_URL }}js/libs/jquery-ui-1.8.21.custom.min.js"
+        type="text/javascript" charset="utf-8"></script>
+{% block js_libs %}
+
+{% endblock js_libs %}
 
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/libs/jquery-1.7.1.min.js"><\/script>')</script>
-	<script src="{{ STATIC_URL }}js/libs/jquery-ui-1.8.21.custom.min.js" type="text/javascript" charset="utf-8"></script>
+{% compress js %}
+    {% block scripts %}
 
-	
-	{% compress js %}
-	{% block scripts %}
-  
-	{% endblock scripts %}
-	{% block page_scripts %}
-	
-	{% endblock %}
-	{% endcompress %}
-	
-	<script>
-    	// var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    	// (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    	// g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    	// s.parentNode.insertBefore(g,s)}(document,'script'));
-	</script>
+    {% endblock scripts %}
+    {% block page_scripts %}
+
+    {% endblock %}
+{% endcompress %}
+
+<script>
+    // var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    // (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    // g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    // s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
 </body>
 </html>

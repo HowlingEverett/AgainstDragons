@@ -4,6 +4,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from dashboard.views import RegistrationView
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,6 +21,12 @@ urlpatterns = patterns('',
     
     url(r'^api/', include('api.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
+
+    url(r'^accounts/register/$', RegistrationView.as_view(), name='register'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {
+        'template_name': 'dashboard/participant_login.html',
+    }, name='login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
 )
 
 # Development serving of static files

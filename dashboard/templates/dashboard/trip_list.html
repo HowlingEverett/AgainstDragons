@@ -1,0 +1,55 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block title %}{{ block.super }}Trip Detail{% endblock %}
+
+{% block page_id %}trip_detail{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div id="selectors" class="fourcol first">
+            <div id="date_selector">
+
+            </div>
+
+            <div id="participant_selector">
+
+            </div>
+
+        </div>
+
+        <div id="trips_map" class="eightcol last">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="day_summary" class="sixcol">
+
+        </div>
+
+        <div id="trip_summary" class="sixcol last">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="samples" class="tencol">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_libs %}
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U&sensor=true" type="text/javascript"></script>
+{% endblock %}
+
+{% block scripts %}
+
+
+    <script src="{{ STATIC_URL }}dashboard/js/jquery.tripmap.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#trips_map").tripmap();
+    });
+    </script>
+{% endblock %}

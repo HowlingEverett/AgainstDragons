@@ -27,7 +27,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'Australia/Brisbane'
+TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -79,6 +79,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '/Users/justin/dev/againstdragons/againstdragons/againstdragons/static',
+    '/Users/justin/workspace/againstdragons/againstdragons/static'
 )
 
 # Make this unique, and don't share it with anybody.
@@ -107,7 +108,10 @@ ROOT_URLCONF = 'againstdragons.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'againstdragons.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/justin/dev/againstdragons/againstdragons/againstdragons/templates',)
+TEMPLATE_DIRS = (
+    '/Users/justin/dev/againstdragons/againstdragons/againstdragons/templates',
+    '/Users/justin/workspace/againstdragons/againstdragons/templates',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

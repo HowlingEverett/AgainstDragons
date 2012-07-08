@@ -1,0 +1,66 @@
+@serif: "ltc-bodoni-175";
+@body_sans: "pragmatica-web";
+@body_font_size: 16px;
+@grey_box: #ccc;
+
+.heading_type {
+    font-family: @serif, serif;
+}
+
+.body_type {
+    font-family: @body_sans, "Helvetica Neue", Helvetica, arial, sans-serif;
+}
+
+/* Base typography styles */
+
+h1 {
+    .heading_type;
+    font-size: 96em / @body_font_size;
+    color: #D07878;
+    text-align: center;
+}
+
+.header_subtitle {
+    font-size: 24rem / @body_font_size;
+    display: block;
+    font-style: italic;
+}
+
+
+/* End base typography */
+
+/* Styles for Trip Detail page */
+
+#trip_detail {
+    .row {
+        margin-top: 40px;
+    }
+
+    #date_selector {
+        background: @grey_box;
+        height: 282px;
+    }
+
+    #participant_selector {
+        background: @grey_box;
+        height: 141px;
+        margin-top: 40px;
+    }
+
+    #trips_map {
+        background: @grey_box;
+        height: 463px;
+    }
+
+    #day_summary, #trip_summary {
+        background: @grey_box;
+        height: 290px;
+    }
+}
+
+/* End trip detail page styles */
+
+
+header .row {
+    margin-top: 0px;
+}

@@ -35,10 +35,12 @@ urlpatterns = patterns('',
     )), name="survey_delete"),
 
     # User urls
-    url(r'^accounts/register/$', RegistrationView.as_view(), name='register'),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {
-        'template_name': 'dashboard/participant_login.html',
-    }, name='login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
+
     url(r'^participant/$', login_required(ParticipantPageView.as_view()), name='participant_page'),
+
+    # Trip and Sample Detail Urls
+    url(r'^trips/\d{2}/\d{2}/\d{4}/', TemplateView.as_view(
+        template_name='dashboard/trip_list.html'
+    ), name='trips_for_date'),
+
 )
