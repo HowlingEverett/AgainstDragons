@@ -18,10 +18,10 @@ class RegistrationForm(forms.Form):
         except User.DoesNotExist:
             return username
 
-    def clean_password(self):
+    def clean_repeat_password(self):
         pw1 = self.cleaned_data['password']
         pw2 = self.cleaned_data['repeat_password']
-        if pw1 != pwd2:
+        if pw1 != pw2:
             raise ValidationError("Passwords do not match.")
         return pw1
 

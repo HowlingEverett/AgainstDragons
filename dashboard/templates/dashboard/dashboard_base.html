@@ -3,13 +3,30 @@
 {% block title %}ATLAS Researcher Dashboard - {% endblock title %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/1140.css" type="text/css">
-<link rel="stylesheet" href="{{ STATIC_URL }}dashboard/css/dashboard.css" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/1140.css" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/css/dashboard.css"
+          type="text/css">
 {% endblock %}
 
 {% block header %}
-<div class="row">
-    <h1 class="twelvecol">ATLAS <span class="header_subtitle">Dashboard</span></h1>
-</div>
+    <div class="row">
+        <h1 class="twelvecol">ATLAS <span
+                class="header_subtitle">Dashboard</span></h1>
+    </div>
 {% endblock %}
 
+{% block all_page_scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Don't want to use labels on the login form - prefer placeholder text
+            // TODO: Wrap this into a placeholder plugin that also fakes it for IE.
+            $("input").filter(":input[type=text], :input[type=password]").each(function () {
+                var labelText;
+                labelText = $(this).prev().text();
+                labelText = labelText.replace(':', '');
+                $(this).attr('placeholder', labelText);
+            });
+        });
+    </script>
+{% endblock %}

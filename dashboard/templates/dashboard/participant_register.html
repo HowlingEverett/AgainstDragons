@@ -1,16 +1,25 @@
-{% extends "base.html" %}
+{% extends "dashboard/dashboard_base.html" %}
 
-{% block title %}
-    Register new user
-{% endblock %}
+{% block title %}Register{% endblock %}
+
+{% block page_id %}registration_page{% endblock page_id %}
 
 {% block content %}
-<h1>Register for ATLAS Survey</h1>
+    <div class="row">
+        <div id="register" class="fourcol">
+            <h2>Register</h2>
 
-<form action="" method="post" id="registration_form">
-    {% csrf_token %}
+            <form action="" method="post" id="registration_form">
+                {% csrf_token %}
 
-    {{ form.as_p }}
-    <input type="submit" value="Register">
-</form>
+                <div id="registration_entries">
+                    {{ form.as_p }}
+                </div>
+
+                <div id="registration_buttons">
+                    <input class="primary_button" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

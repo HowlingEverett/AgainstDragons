@@ -1,16 +1,27 @@
-{% extends "base.html" %}
+{% extends "dashboard/dashboard_base.html" %}
 
-{% block title %}
-    Log in
-{% endblock %}
+{% block title %}Log In{% endblock %}
+
+{% block page_id %}login_page{% endblock page_id %}
 
 {% block content %}
-<h1>Log in to ATLAS Survey</h1>
+    <div class="row">
+        <div id="login" class="fourcol">
+            <h2>Log In</h2>
 
-<form action="" method="post" id="login_form">
-    {% csrf_token %}
+            <form action="" method="post" id="login_form">
+                {% csrf_token %}
+                <div id="login_entries">
+                    {{ form.as_p }}
+                </div>
 
-    {{ form.as_p }}
-    <input type="submit" value="Log in">
-</form>
+                <div id="login_buttons">
+                    <input class="primary_button" type="submit" value="Log in">
+                    <a class="secondary_button"
+                       href="{% url register %}">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
+
