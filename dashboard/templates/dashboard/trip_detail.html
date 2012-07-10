@@ -1,0 +1,37 @@
+{% extends 'dashboard/dashboard_base.html' %}
+
+{% block title %}Trip Detail{% endblock title %}
+
+{% block page_id %}trip_page{% endblock page_id %}
+
+{% block content %}
+    <div class="tencol" id="samples">
+        <table id="samples_table">
+            <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Location</th>
+                <th>Location Accuracy</th>
+                <th>Speed</th>
+                <th>Heading</th>
+                <th>Heading Accuracy</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sample in trip.sample_set.all %}
+                <tr>
+                    <td>{{ sample.timestamp }}</td>
+                    <td>{{ sample.location }}</td>
+                    <td>{{ sample.location_accuracy }}</td>
+                    <td>{{ sample.speed }}</td>
+                    <td>{{ sample.heading }}</td>
+                    <td>{{ sample.heading_accuracy }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+{% endblock content %}

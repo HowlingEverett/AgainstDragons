@@ -67,7 +67,7 @@
     Base Layout Styles
 */
 header {
-    margin-top: 40px;
+    margin-top: 0;
 }
 
 /* Base typography styles */
@@ -160,30 +160,160 @@ body#login_page, body#registration_page {
 
 /* Styles for Trip Detail page */
 
-body#trip_detail {
+body#survey_detail {
     .row {
-        margin-top: 40px;
+        padding-top: 40px;
+        margin-bottom: 20px;
     }
 
-    #date_selector {
-        background: @grey_box;
-        height: 282px;
+    div {
+        position: relative;
     }
 
-    #participant_selector {
+    h3 {
+        .heading_type;
+        font-size: 20rem / @body_font_size;
+        color: @faded_red;
+        top: -24rem / @body_font_size;
+        left: 18rem / @body_font_size;
+        position: absolute;
+    }
+
+    #survey_summary {
         background: @grey_box;
+        min-height: 282px;
+        margin-top: 57px;
+        .striped_panel;
+
+    }
+
+    #survey_title {
+        h2 {
+            .heading_type;
+            font-size: 48rem / @body_font_size;
+            color: @faded_red;
+            text-align: left;
+            display: block;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        position: relative;
         height: 141px;
-        margin-top: 40px;
+        border-bottom: #ccc 1px solid;
+    }
+
+    #trips_map, #date_selector, #trips {
+        overflow: visible;
     }
 
     #trips_map {
         background: @grey_box;
-        height: 463px;
+        height: 483px;
     }
 
     #day_summary, #trip_summary {
         background: @grey_box;
         height: 290px;
+    }
+
+    #date_selector {
+        min-height: 140px;
+        background: @grey_box;
+    }
+
+    #trips {
+        background: @grey_box;
+        min-height: 100px;
+        .striped_panel;
+
+        table {
+            background: #fff;
+            border: @faded_red 1px solid;
+            border-radius: 8px;
+            width: 96.6%;
+            margin: 10px auto;
+            .body_type;
+            font-size: 12rem / @body_font_size;
+        }
+
+        thead {
+            background: @faded_red;
+            color: #fff;
+            font-weight: bold;
+
+        }
+
+        td, th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        td {
+            border: @faded_red 1px solid;
+            border-collapse: collapse;
+            text-indent: 10px;
+
+        }
+
+        th {
+            border: #fff 1px solid;
+            border-top: @faded_red 1px solid;
+
+            &:first-child {
+                border-left: @faded_red 1px solid;
+            }
+
+            &:last-child {
+                border-right: @faded_red 1px solid;
+            }
+        }
+
+        tfoot {
+            text-align: center;
+        }
+    }
+
+    #survey_stats {
+        width: 90%;
+        height: 90%;
+        margin: 4% auto;
+        background: #ffffff;
+        border-radius: 8px;
+        border: #ccc 1px solid;
+    }
+
+    #survey_stats div {
+        display: inline-block;
+        margin-left: 19px;
+        margin-top: 10px;
+    }
+
+    .summary_value {
+        width: 70px;
+        height: 70px;
+        display: block;
+        line-height: 70px;
+        text-align: center;
+        border-radius: 100px;
+        border: @faded_red 3px solid;
+        .body_type;
+        color: @faded_green;
+        font-weight: bold;
+        font-size: 20rem / @body_font_size;
+        background: url(img/bgtile.png) lighten(@faded_red, 25%);
+    }
+
+    .summary_title {
+        width: 70px;
+        display: block;
+        text-align: center;
+        .body_type;
+        color: @faded_red;
+        font-weight: bold;
+        font-size: 16rem / @body_font_size;
+        margin: 10px auto 15px auto;
     }
 }
 

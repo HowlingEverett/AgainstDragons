@@ -133,6 +133,21 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 participant=request.user
             )
             samples.append(geosample)
+
+        # Set trip's path and duration based on newly created samples
+        if len(samples) > 0:
+            first_timestamp = samples[0].timestamp
+            last_timestamp = samples[:-1].timestamp
+            duration = last_timestamp - first_timestamp
+            trip.duration = duration.minutes
+        else:
+            trip.duration = 0.0
+
+        linepoints = [s.location for s in linesamples]
+        trip.path = LineString(linepoints)
+        trip.distance = trip.path.length
+        trip.save()
+
         return samples
 
 class ApiIndexView(TemplateView):

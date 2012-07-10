@@ -1,10 +1,15 @@
 # Create your views here.
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.db.models.aggregates import Avg, Max, Min
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
+from django.views.generic.detail import DetailView
 from dashboard.forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.base import TemplateView
+from geosurvey.models import Survey, Trip
+from datetime import date, datetime
 
 class RegistrationView(FormView):
     form_class = RegistrationForm
@@ -36,3 +41,39 @@ class ParticipantPageView(TemplateView):
     def get_context_data(self, **kwargs):
         pass
 
+
+class SurveyDetailView(DetailView):
+    template_name = 'dashboard/survey_detail.html'
+    model = Survey
+
+    def get_context_data(self, **kwargs):
+        context = super(SurveyDetailView, self).get_context_data(**kwargs)
+        datestr = self.kwargs.get('date')
+
+        if datestr:
+            date = datetime.strptime(datestr, "%Y-%m-%d")
+            trip_set = self.get_object().trip_set.filter(date__exact=date)
+        else:
+            trip_set = self.get_object().trip_set.all()
+
+        paginator = Paginator(trip_set, 10)
+        page = self.request.GET.get('page')
+        try:
+            trips = paginator.page(page)
+        except PageNotAnInteger:
+            trips = paginator.page(1)
+        except EmptyPage:
+            trips = paginator.page(paginator.num_pages)
+
+        context['trips'] = trips
+
+        all_trips = Trip.objects.filter(survey__exact=self.get_object())
+        context['avg_duration'] = all_trips.aggregate(Avg('duration'))['duration__avg']
+        context['max_duration'] = all_trips.aggregate(Max('duration'))['duration__max']
+        context['min_duration'] = all_trips.aggregate(Min('duration'))['duration__min']
+
+        context['avg_distance'] = all_trips.aggregate(Avg('distance'))['distance__avg']
+        context['max_distance'] = all_trips.aggregate(Max('distance'))['distance__max']
+        context['min_distance'] = all_trips.aggregate(Min('distance'))['distance__min']
+
+        return context

@@ -1,9 +1,147 @@
-{% extends "base.html" %}
+{% extends 'dashboard/dashboard_base.html' %}
 
-{% block title %}{{ block.super }} Survey Detail{% endblock title %}
+{% block title %}{{ block.super }}Trip Detail{% endblock %}
+
+{% block page_id %}survey_detail{% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div id="selectors" class="fourcol first">
+            <div id="survey_title">
+                <h2>{{ survey.title }}</h2>
+            </div>
+
+            <div id="survey_summary">
+                <h3>Aggregate Statistics</h3>
+
+                <div id="survey_stats">
+                    <div id="average_distance">
+                        <span class="summary_value">{{ avg_distance }}</span>
+                        <span class="summary_title">Avg km</span>
+                    </div>
+
+                    <div id="max_distance">
+                        <span class="summary_value">{{ max_distance }}</span>
+                        <span class="summary_title">Max km</span>
+                    </div>
+
+                    <div id="min_distance">
+                        <span class="summary_value">{{ min_distance }}</span>
+                        <span class="summary_title">Min km</span>
+                    </div>
+
+                    <div id="average_duration">
+                        <span class="summary_value">{{ avg_duration }}</span>
+                        <span class="summary_title">Avg min</span>
+                    </div>
+
+                    <div id="max_duration">
+                        <span class="summary_value">{{ max_duration }}</span>
+                        <span class="summary_title">Max min</span>
+                    </div>
+
+                    <div id="min_duration">
+                        <span class="summary_value">{{ min_duration }}</span>
+                        <span class="summary_title">Min min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="trips_map" class="eightcol last">
+            <h3>Trip Map</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="date_selector" class="threecol">
+            <h3>Filters</h3>
+        </div>
 
 
+        <div id="trips" class="ninecol last">
+            <h3>Recorded Trips</h3>
 
-{% endblock content %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Distance</th>
+                    <th>Duration</th>
+                    <th>Modes of Transport</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trip in trips %}
+                    <tr>
+                        <td>{{ trip.date }}</td>
+                        <td>{{ trip.description }}</td>
+                        <td>{{ trip.distance }}</td>
+                        <td>{{ trip.duration }}</td>
+                        <td>
+                            {% for mode in trip.transport_modes.all %}
+                                {{ mode.get_mode_display }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url trip_detail trip.pk %}">View
+                                Samples</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <span class="step-links">
+                                {% if contacts.has_previous %}
+                                    <a href="?page={{ trips.previous_page_number }}">previous</a>
+                                {% endif %}
+
+                            <span class="current">
+                                    Page {{ trips.number }} of {{ trips.paginator.num_pages }}.
+                                </span>
+
+                            {% if contacts.has_next %}
+                                <a href="?page={{ trips.next_page_number }}">next</a>
+                            {% endif %}
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="day_summary" class="sixcol">
+
+        </div>
+
+        <div id="trip_summary" class="sixcol last">
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js_libs %}
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U&sensor=true"
+            type="text/javascript"></script>
+{% endblock %}
+
+{% block scripts %}
+
+
+    <script src="{{ STATIC_URL }}dashboard/js/jquery.tripmap.js"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#trips_map").tripmap();
+        });
+    </script>
+{% endblock %}

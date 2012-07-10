@@ -64,6 +64,7 @@ class Trip(models.Model):
     description = models.CharField(max_length=100)
     duration = models.FloatField(validators=[MinValueValidator(0.01)])
     path = models.LineStringField(null=True,blank=True)
+    distance = models.FloatField(null=True, blank=True)
     transport_modes = models.ManyToManyField('Transport')
     participant = models.ForeignKey(User)
     survey = models.ForeignKey('Survey')

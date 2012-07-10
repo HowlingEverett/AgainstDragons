@@ -1,66 +1,118 @@
 [
     {
-        "fields": {
-            "date_joined": "2012-06-21T14:16:21.314Z", 
-            "email": "justin@marrington.net", 
-            "first_name": "Justin", 
-            "groups": [], 
-            "is_active": true, 
-            "is_staff": true, 
-            "is_superuser": true, 
-            "last_login": "2012-06-21T14:16:21.314Z", 
-            "last_name": "Marrington", 
-            "password": "pbkdf2_sha256$10000$p6SR1uXfzEYF$o4dbVINCIJKEIDOHN64xOBscH5S9ZkLeKWvO+f68npE=", 
-            "user_permissions": [], 
-            "username": "justin"
-        }, 
-        "model": "auth.user", 
-        "pk": 1
-    }, 
+        "fields":{
+            "date_joined":"2012-06-21T14:16:21.314Z",
+            "email":"justin@marrington.net",
+            "first_name":"Justin",
+            "groups":[],
+            "is_active":true,
+            "is_staff":true,
+            "is_superuser":true,
+            "last_login":"2012-06-21T14:16:21.314Z",
+            "last_name":"Marrington",
+            "password":"pbkdf2_sha256$10000$p6SR1uXfzEYF$o4dbVINCIJKEIDOHN64xOBscH5S9ZkLeKWvO+f68npE=",
+            "user_permissions":[],
+            "username":"justin"
+        },
+        "model":"auth.user",
+        "pk":1
+    },
     {
-        "fields": {
-            "date_joined": "2012-06-21T22:54:41.389Z", 
-            "email": "testresearcher@lovelyhead.net", 
-            "first_name": "John", 
-            "groups": [], 
-            "is_active": true, 
-            "is_staff": false, 
-            "is_superuser": false, 
-            "last_login": "2012-06-21T22:54:41.389Z", 
-            "last_name": "Researcher", 
-            "password": "pbkdf2_sha256$10000$bUltcYdw9UtE$+Z7aPoxZL7qCchndTvlbzYc8dNfmTBTnv0JqcE2k3Bg=", 
-            "user_permissions": [], 
-            "username": "testresearcher"
-        }, 
-        "model": "auth.user", 
-        "pk": 3
-    }, 
+        "fields":{
+            "date_joined":"2012-06-21T22:54:41.389Z",
+            "email":"testresearcher@lovelyhead.net",
+            "first_name":"John",
+            "groups":[],
+            "is_active":true,
+            "is_staff":false,
+            "is_superuser":false,
+            "last_login":"2012-06-21T22:54:41.389Z",
+            "last_name":"Researcher",
+            "password":"pbkdf2_sha256$10000$bUltcYdw9UtE$+Z7aPoxZL7qCchndTvlbzYc8dNfmTBTnv0JqcE2k3Bg=",
+            "user_permissions":[],
+            "username":"testresearcher"
+        },
+        "model":"auth.user",
+        "pk":3
+    },
     {
-        "fields": {
-            "date_joined": "2012-06-21T22:50:45.767Z", 
-            "email": "test@lovelyhead.net", 
-            "first_name": "Johnny", 
-            "groups": [], 
-            "is_active": true, 
-            "is_staff": false, 
-            "is_superuser": false, 
-            "last_login": "2012-06-21T22:50:45.767Z", 
-            "last_name": "Test", 
-            "password": "pbkdf2_sha256$10000$1HRBJiLfXkC6$WrH/0kFO9nHqVGlC4qtQmml/q5KyN8xQGWr16f4SDAI=", 
-            "user_permissions": [], 
-            "username": "agtest"
-        }, 
-        "model": "auth.user", 
-        "pk": 2
-    }, 
+        "fields":{
+            "date_joined":"2012-06-21T22:50:45.767Z",
+            "email":"test@lovelyhead.net",
+            "first_name":"Johnny",
+            "groups":[],
+            "is_active":true,
+            "is_staff":false,
+            "is_superuser":false,
+            "last_login":"2012-06-21T22:50:45.767Z",
+            "last_name":"Test",
+            "password":"pbkdf2_sha256$10000$1HRBJiLfXkC6$WrH/0kFO9nHqVGlC4qtQmml/q5KyN8xQGWr16f4SDAI=",
+            "user_permissions":[],
+            "username":"agtest"
+        },
+        "model":"auth.user",
+        "pk":2
+    },
     {
-        "fields": {
-            "end_date": "2012-06-27", 
-            "managed_by": 3, 
-            "start_date": "2012-06-17", 
-            "title": "Test survey"
-        }, 
-        "model": "geosurvey.survey", 
-        "pk": 1
+        "fields":{
+            "end_date":"2012-06-27",
+            "managed_by":3,
+            "start_date":"2012-06-17",
+            "title":"Test survey"
+        },
+        "model":"geosurvey.survey",
+        "pk":1
+    },
+    {
+        "fields":{
+            "mode":"P"
+        },
+        "model":"geosurvey.transport",
+        "pk":1
+    },
+    {
+        "fields":{
+            "mode":"PT"
+        },
+        "model":"geosurvey.transport",
+        "pk":2
+    },
+    {
+        "fields":{
+            "mode":"P"
+        },
+        "model":"geosurvey.transport",
+        "pk":3
+    },
+    {
+        "fields":{
+            "mode":"PT"
+        },
+        "model":"geosurvey.transport",
+        "pk":4
+    },
+    {
+        "fields":{
+            "date":"2012-07-03",
+            "description":"To work",
+            "duration":35.0,
+            "transport_modes":[1, 2],
+            "participant":2,
+            "survey":1
+        },
+        "model":"geosurvey.trip",
+        "pk":1
+    },
+    {
+        "fields":{
+            "date":"2012-07-03",
+            "description":"Home again, home again, dippity-doo.",
+            "duration":35.0,
+            "transport_modes":[3, 4],
+            "participant":2,
+            "survey":1
+        },
+        "model":"geosurvey.trip",
+        "pk":2
     }
 ]

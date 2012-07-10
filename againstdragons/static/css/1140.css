@@ -16,7 +16,7 @@
 }
 
 .onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol {
-    margin-right: 3.8%;
+    margin-right: 3.7%;
     float: left;
     min-height: 1px;
 }

@@ -15,10 +15,6 @@ urlpatterns = patterns('',
     )), name="survey_list"),
 
     # Survey CRUD
-    url(r'^survey/(?P<pk>\d+)/$', login_required(DetailView.as_view(
-        model=Survey,
-        template_name='dashboard/survey_detail.html'
-    )), name="survey_detail"),
     url(r'^survey/create/$', permission_required('geosurvey.can_create_survey')(CreateView.as_view(
         model=Survey,
         template_name='dashboard/survey_form.html',
@@ -34,13 +30,17 @@ urlpatterns = patterns('',
         success_url=reverse_lazy('survey_list'),
     )), name="survey_delete"),
 
-    # User urls
+    # Survey Detail URLs
+    url(r'^survey/(?P<pk>\d+)/(?:date/)?(?P<date>\d{4}-\d{2}-\d{2})?/?$', login_required(SurveyDetailView.as_view(
+            model=Survey,
+            template_name='dashboard/survey_detail.html'
+        )), name="survey_detail"),
+    url(r'^trip/(?P<pk>\d+)/', login_required(DetailView.as_view(
+        model=Trip,
+        template_name="dashboard/trip_detail.html"
+    )), name="trip_detail"),
 
     url(r'^participant/$', login_required(ParticipantPageView.as_view()), name='participant_page'),
 
-    # Trip and Sample Detail Urls
-    url(r'^trips/\d{2}/\d{2}/\d{4}/', TemplateView.as_view(
-        template_name='dashboard/trip_list.html'
-    ), name='trips_for_date'),
 
 )
