@@ -195,12 +195,8 @@ body#survey_detail {
             text-align: left;
             display: block;
             width: 100%;
-            position: absolute;
-            bottom: 0;
         }
 
-        position: relative;
-        height: 141px;
         border-bottom: #ccc 1px solid;
     }
 
@@ -213,9 +209,53 @@ body#survey_detail {
         height: 483px;
     }
 
-    #day_summary, #trip_summary {
-        background: @grey_box;
-        height: 290px;
+    #filters {
+        background: @faded_red;
+        border-radius: 3px;
+        padding: 1.7%;
+
+        label {
+            .body_type;
+
+            font-size: 14rem / @body_font_size;
+            color: #fff;
+        }
+
+        input {
+            border-radius: 8px;
+            border: 1px solid @darker_red;
+            box-shadow: inset 0px 1px 3px rgba(1, 0, 0, 0.50);
+            padding: 0;
+            text-indent: 5%;
+            font-size: 16rem / @body_font_size;
+            font-weight: bold;
+            .body_type;
+            height: 38px;
+
+            width: 30%;
+            &:active, &:focus {
+                outline-style: none;
+                outline-width: 0;
+            }
+        }
+
+        input, select {
+            margin-right: 3.9%;
+        }
+    
+        button {
+
+        }
+
+        select {
+            height: 38px;
+            width: 15%;
+
+        }
+
+        option {
+            text-align: center;
+        }
     }
 
     #date_selector {
@@ -226,6 +266,7 @@ body#survey_detail {
     #trips {
         background: @grey_box;
         min-height: 100px;
+        margin-top: 40px;
         .striped_panel;
 
         table {

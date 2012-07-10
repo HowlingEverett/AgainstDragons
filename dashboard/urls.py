@@ -31,7 +31,7 @@ urlpatterns = patterns('',
     )), name="survey_delete"),
 
     # Survey Detail URLs
-    url(r'^survey/(?P<pk>\d+)/(?:date/)?(?P<date>\d{4}-\d{2}-\d{2})?/?$', login_required(SurveyDetailView.as_view(
+    url(r'^survey/(?P<pk>\d+)/$', login_required(SurveyDetailView.as_view(
             model=Survey,
             template_name='dashboard/survey_detail.html'
         )), name="survey_detail"),

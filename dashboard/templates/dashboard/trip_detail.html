@@ -5,6 +5,10 @@
 {% block page_id %}trip_page{% endblock page_id %}
 
 {% block content %}
+    <div id="trips_map" class="eightcol last">
+        <h3>Trip Map</h3>
+    </div>
+
     <div class="tencol" id="samples">
         <table id="samples_table">
             <thead>
@@ -35,3 +39,20 @@
         </table>
     </div>
 {% endblock content %}
+
+{% block js_libs %}
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U&sensor=true"
+            type="text/javascript"></script>
+{% endblock %}
+
+{% block scripts %}
+
+
+    <script src="{{ STATIC_URL }}dashboard/js/jquery.tripmap.js"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#trips_map").tripmap();
+        });
+    </script>
+{% endblock %}

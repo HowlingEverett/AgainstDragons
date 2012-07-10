@@ -1,4 +1,5 @@
 # Create your views here.
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models.aggregates import Avg, Max, Min
@@ -48,13 +49,18 @@ class SurveyDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SurveyDetailView, self).get_context_data(**kwargs)
-        datestr = self.kwargs.get('date')
+        datestr = self.request.GET.get('date')
+        participant_id = self.request.GET.get('participant')
 
+        trip_set = self.get_object().trip_set.all()
         if datestr:
             date = datetime.strptime(datestr, "%Y-%m-%d")
-            trip_set = self.get_object().trip_set.filter(date__exact=date)
-        else:
-            trip_set = self.get_object().trip_set.all()
+            context['date'] = datestr
+            trip_set = trip_set.filter(date__exact=date)
+        if participant_id and int(participant_id) != 0:
+            pk = int(participant_id)
+            context['participant_id'] = participant_id
+            trip_set = trip_set.filter(participant__exact=pk)
 
         paginator = Paginator(trip_set, 10)
         page = self.request.GET.get('page')
@@ -75,5 +81,7 @@ class SurveyDetailView(DetailView):
         context['avg_distance'] = all_trips.aggregate(Avg('distance'))['distance__avg']
         context['max_distance'] = all_trips.aggregate(Max('distance'))['distance__max']
         context['min_distance'] = all_trips.aggregate(Min('distance'))['distance__min']
+
+        context['participants'] = User.objects.all()
 
         return context
