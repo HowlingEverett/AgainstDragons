@@ -1,13 +1,31 @@
-{% extends "base.html" %}
+{% extends "dashboard/dashboard_base.html" %}
 
 {% block title %}Survey List{% endblock title %}
 
+{% block page_id %}survey_list_page{% endblock page_id %}
+
 {% block content %}
 
-<ul>
-    {% for survey in surveys %}
-    <li>{{ survey.title }} ( <a href="{% url survey_detail pk=survey.pk %}">View</a> | <a href="{% url survey_edit pk=survey.pk %}">Edit</a> )</li>
-    {% endfor %}
-</ul>
+    <div class="row">
+        <div class="eightcol twopush">
+            <h2>Active Surveys</h2>
+
+            <div id="survey_list">
+                <ul>
+                    {% for survey in surveys %}
+                        <li>{{ survey.title }} ( <a
+                                href="{% url survey_detail pk=survey.pk %}">View</a>
+                            |
+                            <a href="{% url survey_edit pk=survey.pk %}">Edit</a>
+                            )
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <a id="create_survey" href="{% url survey_create %}"
+               class="primary_button">New Survey</a>
+        </div>
+    </div>
 
 {% endblock content %}

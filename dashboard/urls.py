@@ -35,10 +35,19 @@ urlpatterns = patterns('',
             model=Survey,
             template_name='dashboard/survey_detail.html'
         )), name="survey_detail"),
-    url(r'^trip/(?P<pk>\d+)/', login_required(DetailView.as_view(
+    url(r'^trip/(?P<pk>\d+)/', login_required(TripDetailView.as_view(
         model=Trip,
         template_name="dashboard/trip_detail.html"
     )), name="trip_detail"),
+
+    # Export URLs
+    url(r'^survey/(?P<pk>\d+)/export/$', login_required(SurveyExportView.as_view(
+
+    )), name='survey_export'),
+    url(r'^trip/(?P<pk>\d+)/export/$', login_required(TripExportView.as_view(
+
+    )), name='trip_export'),
+
 
     url(r'^participant/$', login_required(ParticipantPageView.as_view()), name='participant_page'),
 

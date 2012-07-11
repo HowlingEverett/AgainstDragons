@@ -156,3 +156,5 @@ LOGGING = {
         },
     }
 }
+
+GOOGLE_MAPS_API_KEY = "AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U"

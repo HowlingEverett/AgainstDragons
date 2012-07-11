@@ -21,6 +21,10 @@
     } catch (e) {
     }</script>
 
+    {% block head_scripts %}
+
+    {% endblock %}
+
     {% load compress %}
     {% compress css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css"

@@ -1,22 +1,43 @@
-{% extends "base.html" %}
+{% extends "dashboard/dashboard_base.html" %}
 
 {% block title %}Survey{% endblock title %}
 
+{% block page_id %}survey_create_edit_page{% endblock %}
+
 {% block content %}
 
-<form action="" method="post" accept-charset="utf-8">
-	{% csrf_token %}
-	
-	{{ form.as_p }}
-	<p><input type="submit" value="Save"></p>
-</form>
+    <div class="container">
+        <div class="row">
+
+            <div class="sixcol threepush">
+                <h2>
+                    {% if "create" in request.get_full_path %}
+                        Create New Survey
+                    {% else %}
+                        Edit Survey
+                    {% endif %}
+                </h2>
+
+                <form action="" method="post" accept-charset="utf-8">
+                    {% csrf_token %}
+
+                    <div id="form_inputs" class="striped_panel">
+                        {{ form.as_p }}
+                    </div>
+                    <div id="buttons"><input class="primary_button" type="submit" value="Save"><a
+                            class="secondary_button"
+                            href="{% url survey_list %}">Cancel</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
 
 {% block page_scripts %}
-<script type="text/javascript">
-$(document).ready(function() {
-	$("#id_start_date, #id_end_date").datepicker();
-});
-</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#id_start_date, #id_end_date").datepicker();
+        });
+    </script>
 {% endblock page_scripts %}

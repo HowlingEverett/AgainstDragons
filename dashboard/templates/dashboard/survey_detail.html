@@ -7,6 +7,8 @@
 {% block content %}
     <div class="row">
         <div id="selectors" class="fourcol first">
+
+
             <div id="survey_title">
                 <h2>{{ survey.title }}</h2>
             </div>
@@ -46,6 +48,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="eightcol last">
             <div id="filters">
@@ -72,7 +75,7 @@
 
 
                 <h3>Recorded Trips</h3>
-
+                <a title="Export samples for trips as CSV" alt="Export samples for trips as CSV" href="{% url survey_export survey.pk %}{% if date %}?date={{ date }}{% endif %}" class="export_button"></a>
                 <table>
                     <thead>
                     <tr>
@@ -104,27 +107,30 @@
                     {% endfor %}
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <span class="step-links">
-                            {% if contacts.has_previous %}
-                                <a href="?page={{ trips.previous_page_number }}">previous</a>
-                            {% endif %}
+                        <tr>
+                            <td colspan="6">
+                                <span class="step-links">
+                                    {% if trips.has_previous %}
+                                        <a href="?page={{ trips.previous_page_number }}">previous</a>
+                                    {% endif %}
 
-                                <span class="current">
-                                Page {{ trips.number }} of {{ trips.paginator.num_pages }}.
-                            </span>
+                                    <span class="current">
+                                        Page {{ trips.number }} of {{ trips.paginator.num_pages }}.
+                                    </span>
 
-                                {% if contacts.has_next %}
-                                    <a href="?page={{ trips.next_page_number }}">next</a>
-                                {% endif %}
-                            </span>
-                        </td>
-                    </tr>
+                                    {% if trips.has_next %}
+                                        <a href="?page={{ trips.next_page_number }}">next</a>
+                                    {% endif %}
+                                </span>
+                            </td>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
+            <a id="back" href="{% url survey_list %}" class="secondary_button">&lt; Back to survey list</a>
         </div>
+
+
     </div>
 
     <div class="row">

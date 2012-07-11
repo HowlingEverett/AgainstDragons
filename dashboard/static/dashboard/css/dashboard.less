@@ -97,6 +97,68 @@ h1 {
     .button(@faded_green, #fff);
 }
 
+/* Shared Styles */
+em {
+    font-style: italic;
+    color: @faded_green;
+}
+
+.row {
+    padding-top: 40px;
+    margin-bottom: 20px;
+}
+
+table {
+    background: #fff;
+    border: @faded_red 1px solid;
+    border-radius: 8px;
+    margin: 10px auto;
+    .body_type;
+    font-size: 12rem / @body_font_size;
+}
+
+thead {
+    background: @faded_red;
+    color: #fff;
+    font-weight: bold;
+
+}
+
+td, th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+td {
+    border: @faded_red 1px solid;
+    border-collapse: collapse;
+    text-indent: 10px;
+
+}
+
+th {
+    border: #fff 1px solid;
+    border-top: @faded_red 1px solid;
+
+    &:first-child {
+        border-left: @faded_red 1px solid;
+    }
+
+    &:last-child {
+        border-right: @faded_red 1px solid;
+    }
+}
+
+tfoot {
+    text-align: center;
+}
+
+.export_button {
+    width: 24px;
+    height: 24px;
+    background: url("img/download.png") no-repeat center;
+}
+
 /* Styles for Login and Registration Pages */
 
 body#login_page, body#registration_page {
@@ -158,16 +220,20 @@ body#login_page, body#registration_page {
 
 /* End login/registration styles */
 
-/* Styles for Trip Detail page */
+/* Styles for Survey Detail page */
 
 body#survey_detail {
-    .row {
-        padding-top: 40px;
-        margin-bottom: 20px;
-    }
-
     div {
         position: relative;
+    }
+
+    a#back {
+        display: block;
+        width: 40%;
+        font-size: 14rem / @body_font_size;
+        line-height: 28px;
+        height: 28px;
+        margin-top: 12px;
     }
 
     h3 {
@@ -198,15 +264,6 @@ body#survey_detail {
         }
 
         border-bottom: #ccc 1px solid;
-    }
-
-    #trips_map, #date_selector, #trips {
-        overflow: visible;
-    }
-
-    #trips_map {
-        background: @grey_box;
-        height: 483px;
     }
 
     #filters {
@@ -242,7 +299,7 @@ body#survey_detail {
         input, select {
             margin-right: 3.9%;
         }
-    
+
         button {
 
         }
@@ -270,49 +327,14 @@ body#survey_detail {
         .striped_panel;
 
         table {
-            background: #fff;
-            border: @faded_red 1px solid;
-            border-radius: 8px;
             width: 96.6%;
-            margin: 10px auto;
-            .body_type;
-            font-size: 12rem / @body_font_size;
         }
 
-        thead {
-            background: @faded_red;
-            color: #fff;
-            font-weight: bold;
-
-        }
-
-        td, th {
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        td {
-            border: @faded_red 1px solid;
-            border-collapse: collapse;
-            text-indent: 10px;
-
-        }
-
-        th {
-            border: #fff 1px solid;
-            border-top: @faded_red 1px solid;
-
-            &:first-child {
-                border-left: @faded_red 1px solid;
-            }
-
-            &:last-child {
-                border-right: @faded_red 1px solid;
-            }
-        }
-
-        tfoot {
-            text-align: center;
+        .export_button {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            z-index: 20;
         }
     }
 
@@ -358,7 +380,209 @@ body#survey_detail {
     }
 }
 
+/* End Survey detail page styles */
+
+/* Trip Detail page styles */
+body#trip_detail {
+    .row {
+        position: relative;
+    }
+
+    h2 {
+        .heading_type;
+        font-size: 36rem / @body_font_size;
+        color: @faded_red;
+        text-align: left;
+        display: block;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    span#trip_participant {
+        color: @faded_green;
+        .body_type;
+        font-size: 20em / @body_font_size;
+    }
+
+    div#trip_title {
+        padding-top: 20px;
+        padding-bottom: 5px;
+        border-bottom: #ccc 1px solid;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+    }
+
+    div#trip_controls {
+        min-height: 320px;
+        position: relative;
+    }
+
+    nav#controls {
+
+        min-height: 43px;
+
+        li {
+            display: inline-block;
+            line-height: 38px;
+        }
+
+        a {
+            display: block;
+            .secondary_button;
+            font-size: 14rem / @body_font_size;
+            line-height: 24px;
+            height: 24px;
+            padding: 0 10px;
+        }
+    }
+
+    h3 {
+        .heading_type;
+        font-size: 20rem / @body_font_size;
+        color: @faded_red;
+        top: -24rem / @body_font_size;
+        left: 18rem / @body_font_size;
+        position: absolute;
+    }
+
+    .map {
+        height: 320px;
+    }
+
+    #samples {
+        background: @grey_box;
+        position: relative;
+        .striped_panel;
+
+        table {
+            width: 96.6%;
+        }
+
+        .export_button {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            z-index: 20;
+        }
+    }
+}
+
 /* End trip detail page styles */
+
+/* Survey List Page */
+
+body#survey_list_page {
+
+    div#survey_list {
+        .striped_panel;
+        padding: 10px;
+    }
+
+    ul {
+        background: #fff;
+        border-radius: 8px;
+    }
+
+    li {
+        .body_type;
+        font-size: 20rem / @body_font_size;
+        display: block;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: #ccc 1px solid;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    h2 {
+        .heading_type;
+        font-size: 48rem / @body_font_size;
+        color: @faded_red;
+        text-align: center;
+        margin-bottom: -9px;
+    }
+
+    a#create_survey {
+        display: block;
+        padding: 5px;
+        height: 28px;
+        width: 140px;
+        line-height: 28px;
+        margin: 10px auto;
+    }
+}
+
+body#survey_create_edit_page {
+    label {
+        display: none;
+    }
+
+    label[for="id_managed_by"] {
+        display: inline-block;
+        margin-left: 5%;
+        .body_type;
+        font-weight: bold;
+    }
+
+    p {
+        width: 90%;
+        margin: 30px auto;
+        background: #fff;
+        height: 49px;
+        border-radius: 8px;
+        line-height: 49px;
+        position: relative;
+    }
+
+    input[type="text"], input[type="password"] {
+        .text_input;
+
+    }
+
+    select {
+        display: block;
+        top: 14px;
+        line-height: 49px;
+        position: absolute;
+        right: 5%;
+        min-width: 180px;
+        max-width: 220px;
+    }
+
+    h2 {
+        .heading_type;
+        font-size: 48rem / @body_font_size;
+        color: @faded_red;
+        text-align: center;
+        margin-bottom: -9px;
+
+    }
+
+    a.secondary_button {
+        height: 36px;
+        line-height: 36px;
+        display: inline-block;
+        margin-left: 10px;
+        width: 100px;
+    }
+
+    input.primary_button {
+        width: 100px;
+        display: inline-block;
+    }
+
+    div#buttons {
+        margin: 10px auto;
+        width: 40%;
+    }
+}
+
+/* End survey list page */
 
 header .row {
     margin-top: 0px;
