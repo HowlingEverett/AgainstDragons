@@ -18,32 +18,32 @@
 
                 <div id="survey_stats">
                     <div id="average_distance">
-                        <span class="summary_value">{{ avg_distance }}</span>
+                        <span class="summary_value">{{ avg_distance|floatformat:1 }}</span>
                         <span class="summary_title">Avg km</span>
                     </div>
 
                     <div id="max_distance">
-                        <span class="summary_value">{{ max_distance }}</span>
+                        <span class="summary_value">{{ max_distance|floatformat:1 }}</span>
                         <span class="summary_title">Max km</span>
                     </div>
 
                     <div id="min_distance">
-                        <span class="summary_value">{{ min_distance }}</span>
+                        <span class="summary_value">{{ min_distance|floatformat:1 }}</span>
                         <span class="summary_title">Min km</span>
                     </div>
 
                     <div id="average_duration">
-                        <span class="summary_value">{{ avg_duration }}</span>
+                        <span class="summary_value">{{ avg_duration|floatformat:1 }}</span>
                         <span class="summary_title">Avg min</span>
                     </div>
 
                     <div id="max_duration">
-                        <span class="summary_value">{{ max_duration }}</span>
+                        <span class="summary_value">{{ max_duration|floatformat:1 }}</span>
                         <span class="summary_title">Max min</span>
                     </div>
 
                     <div id="min_duration">
-                        <span class="summary_value">{{ min_duration }}</span>
+                        <span class="summary_value">{{ min_duration|floatformat:1 }}</span>
                         <span class="summary_title">Min min</span>
                     </div>
                 </div>
@@ -92,8 +92,8 @@
                         <tr>
                             <td>{{ trip.date }}</td>
                             <td>{{ trip.description }}</td>
-                            <td>{{ trip.distance }}</td>
-                            <td>{{ trip.duration }}</td>
+                            <td>{{ trip.distance|floatformat:2 }}</td>
+                            <td>{{ trip.duration|floatformat:2 }}</td>
                             <td>
                                 {% for mode in trip.transport_modes.all %}
                                     {{ mode.get_mode_display }}

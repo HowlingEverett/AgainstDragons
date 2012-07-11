@@ -57,10 +57,10 @@
                         <tr>
                             <td>{{ sample.timestamp }}</td>
                             <td>{{ sample.location.y }}, {{ sample.location.x }}</td>
-                            <td>{{ sample.location_accuracy }}</td>
-                            <td>{{ sample.speed }}</td>
-                            <td>{{ sample.heading }}</td>
-                            <td>{{ sample.heading_accuracy }}</td>
+                            <td>{{ sample.location_accuracy|floatformat:2 }}</td>
+                            <td>{{ sample.speed|floatformat:2 }}</td>
+                            <td>{{ sample.heading|floatformat:2 }}</td>
+                            <td>{{ sample.heading_accuracy|floatformat:2 }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

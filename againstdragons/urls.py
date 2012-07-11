@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'^api/', include('api.urls')),
-    url(r'^/', include('dashboard.urls')),
+    url(r'^', include('dashboard.urls')),
 
     url(r'^accounts/register/$', RegistrationView.as_view(), name='register'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {
