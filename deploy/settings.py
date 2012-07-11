@@ -160,6 +160,7 @@ LOGGING = {
 GOOGLE_MAPS_API_KEY = "AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U"
 GOOGLE_MAPS_URL="http://maps.googleapis.com/maps/api/js?sensor=true&amp;key="
 
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
