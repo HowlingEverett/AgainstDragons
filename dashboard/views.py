@@ -137,7 +137,7 @@ class TripDetailView(DetailView):
 
 class CSVDumpView(ListView):
     def get(self, request, *args, **kwargs):
-        response = super(CSVDumpView, self).get(request, *args, **kwargs)
+        super(CSVDumpView, self).get(request, *args, **kwargs)
         response = HttpResponse(mimetype='text/csv')
         response[
         'Content-Disposition'] = 'attachment; filename=sampleexport.csv'
@@ -162,7 +162,7 @@ class TripExportView(CSVDumpView):
     def get_queryset(self):
         trip = Trip.objects.get(pk=self.kwargs['pk'])
         return trip.geographicalsamples_set.all().order_by(
-            'participant, timestamp')
+            'participant__pk, timestamp')
 
 
 class SurveyExportView(CSVDumpView):
@@ -178,5 +178,5 @@ class SurveyExportView(CSVDumpView):
             sample_set = trip.geographicalsample_set.all()
             if len(sample_set) > 0:
                 samples = chain(samples, sample_set.order_by(
-                    'participant, timestamp'))
+                    'participant__pk, timestamp'))
         return samples
