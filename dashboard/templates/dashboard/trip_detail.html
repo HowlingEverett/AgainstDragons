@@ -56,7 +56,7 @@
                     {% for sample in samples %}
                         <tr>
                             <td>{{ sample.timestamp }}</td>
-                            <td>{{ sample.location }}</td>
+                            <td>{{ sample.location.y }}, {{ sample.location.x }}</td>
                             <td>{{ sample.location_accuracy }}</td>
                             <td>{{ sample.speed }}</td>
                             <td>{{ sample.heading }}</td>
