@@ -162,7 +162,7 @@ class TripExportView(CSVDumpView):
     def get_queryset(self):
         trip = Trip.objects.get(pk=self.kwargs['pk'])
         return trip.geographicalsamples_set.all().order_by(
-            'participant__pk, timestamp')
+            'participant__pk', 'timestamp')
 
 
 class SurveyExportView(CSVDumpView):
@@ -175,8 +175,8 @@ class SurveyExportView(CSVDumpView):
                                      "%Y-%m-%d").date()
             trips = trips.filter(date__exact=date)
         for trip in trips:
-            sample_set = trip.geographicalsample_set.all()
+            sample_set = trip.geographicalsample_set.all().order_by('participant__pk', 'timestamp')
             if len(sample_set) > 0:
                 samples = chain(samples, sample_set.order_by(
-                    'participant__pk, timestamp'))
+                    'participant__pk', 'timestamp'))
         return samples
