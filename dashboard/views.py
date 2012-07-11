@@ -108,7 +108,7 @@ class TripDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TripDetailView, self).get_context_data(**kwargs)
 
-        sample_set = self.get_object().geographicalsample_set.all()
+        sample_set = self.get_object().geographicalsample_set.all().order_by('-timestamp')
         paginator = Paginator(sample_set, 25)
         page = self.request.GET.get('page')
         try:
