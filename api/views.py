@@ -172,7 +172,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
             first_timestamp = samples[0].timestamp
             last_timestamp = samples[-1].timestamp
             duration = last_timestamp - first_timestamp
-            trip.duration = duration.total_seconds / 60
+            trip.duration = duration.total_seconds() / 60
         else:
             trip.duration = 0.0
 
