@@ -170,7 +170,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         # Set trip's path and duration based on newly created samples
         if len(samples) > 0:
             first_timestamp = samples[0].timestamp
-            last_timestamp = samples[:-1].timestamp
+            last_timestamp = samples[-1].timestamp
             duration = last_timestamp - first_timestamp
             trip.duration = duration.minutes
         else:
