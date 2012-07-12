@@ -1,38 +1,37 @@
-{% load l10n %}
 {% autoescape off %}
-{% localize off %}
-{% block vars %}var geodjango = {};{% for icon in icons %}
-var {{ icon.varname }} = new GIcon(G_DEFAULT_ICON);
-{% if icon.image %}{{ icon.varname }}.image = "{{ icon.image }}";{% endif %}
-{% if icon.shadow %}{{ icon.varname }}.shadow = "{{ icon.shadow }}";{% endif %} {% if icon.shadowsize %}{{ icon.varname }}.shadowSize = new GSize({{ icon.shadowsize.0 }}, {{ icon.shadowsize.1 }});{% endif %}
-{% if icon.iconanchor %}{{ icon.varname }}.iconAnchor = new GPoint({{ icon.iconanchor.0 }}, {{ icon.iconanchor.1 }});{% endif %} {% if icon.iconsize %}{{ icon.varname }}.iconSize = new GSize({{ icon.iconsize.0 }}, {{ icon.iconsize.1 }});{% endif %}
-{% if icon.infowindowanchor %}{{ icon.varname }}.infoWindowAnchor = new GPoint({{ icon.infowindowanchor.0 }}, {{ icon.infowindowanchor.1 }});{% endif %}{% endfor %}
+{% block vars %}var geodjango = {};
 {% endblock vars %}{% block functions %}
 {% block load %}{{ js_module }}.{{ dom_id }}_load = function(){
-    var mapDefaults = {
-        center: new google.maps.LatLng(-27.4667, 153.0333),
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    {{ js_module }}.{{ dom_id }} = new google.maps.Map(document.getElementById("{{ dom_id }}"), mapDefaults);
-//    {{ js_module }}.{{ dom_id }}.setCenter(new google.maps.LatLng({{ center.1 }}, {{ center.0 }}), {{ zoom }});
-//    {% block controls %}{{ js_module }}.{{ dom_id }}.setUIToDefault();{% endblock %}
-    {% if calc_zoom %}var bounds = new GLatLngBounds(); var tmp_bounds = new GLatLngBounds();{% endif %}
-    {% for kml_url in kml_urls %}{{ js_module }}.{{ dom_id }}_kml{{ forloop.counter }} = new GGeoXml("{{ kml_url }}");
-    {{ js_module }}.{{ dom_id }}.addOverlay({{ js_module }}.{{ dom_id }}_kml{{ forloop.counter }});{% endfor %}
-    {% for polygon in polygons %}{{ js_module }}.{{ dom_id }}_poly{{ forloop.counter }} = new {{ polygon }};
-    {{ js_module }}.{{ dom_id }}.addOverlay({{ js_module }}.{{ dom_id }}_poly{{ forloop.counter }});
-    {% for event in polygon.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_poly{{ forloop.parentloop.counter }}, {{ event }});{% endfor %}
-    {% if calc_zoom %}tmp_bounds = {{ js_module }}.{{ dom_id }}_poly{{ forloop.counter }}.getBounds(); bounds.extend(tmp_bounds.getSouthWest()); bounds.extend(tmp_bounds.getNorthEast());{% endif %}{% endfor %}
-    {% for polyline in polylines %}{{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }} = new {{ polyline }};
-    {{ js_module }}.{{ dom_id }}.addOverlay({{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }});
-    {% for event in polyline.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_polyline{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
-    {% if calc_zoom %}tmp_bounds = {{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.getBounds(); bounds.extend(tmp_bounds.getSouthWest()); bounds.extend(tmp_bounds.getNorthEast());{% endif %}{% endfor %}
-    {% for marker in markers %}{{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }} = new {{ marker }};
-    {{ js_module }}.{{ dom_id }}.addOverlay({{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }});
-    {% for event in marker.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_marker{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
-    {% if calc_zoom %}bounds.extend({{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }}.getLatLng()); {% endif %}{% endfor %}
-    {% if calc_zoom %}{{ js_module }}.{{ dom_id }}.setCenter(bounds.getCenter(), {{ js_module }}.{{ dom_id }}.getBoundsZoomLevel(bounds));{% endif %}
-    {% block load_extra %}{% endblock %}
+  var map_options = {
+    zoom: {{ zoom }},
+    keyboardShortcuts: {{ keyboard_shortcuts }},
+    {% if max_zoom %}maxZoom: {{ max_zoom }},{% endif %}
+    {% if min_zoom %}minZoom: {{ min_zoom }},{% endif %}
+    streetViewControl: {{ street_view_control }},
+    {% if overview_map_control %}overviewMapControl: true,{% endif %}
+    {% if pan_control %}panControl: true,{% endif %}
+    {% if disable_double_click_zoom %}disableDoubleClickZoom: true,{% endif %}
+    center: google.maps.LatLng({{ center.1 }}, {{ center.0 }}),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  {{ js_module }}.{{ dom_id }} = new google.maps.Map(document.getElementById("{{ dom_id }}"), map_options);
+  {% block controls %}{% endblock %}
+  {% if calc_zoom %}var bounds = new google.maps.LatLngBounds(); var i; var j;{% endif %}
+  {% for kml_url in kml_urls %}{{ js_module }}.{{ dom_id }}_kml{{ forloop.counter }} = new google.maps.KmlLayer("{{ kml_url }}");
+  {{ js_module }}.{{ dom_id }}_kml{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});{% endfor %}
+  {% for polygon in polygons %}{{ js_module }}.{{ dom_id }}_poly{{ forloop.counter }} = new {{ polygon }};
+  {{ js_module }}.{{ dom_id }}_poly{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});
+  {% for event in polygon.events %}google.event.addListener({{ js_module }}.{{ dom_id }}_poly{{ forloop.parentloop.counter }}, {{ event }});{% endfor %}
+  {% if calc_zoom %}paths={{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.getPaths(); for(i=0; i<paths.length(); i++){ for(j=0; j<paths[i].length(); j++){ bounds.extend(paths[i][j]); }}{% endif %}{% endfor %}  
+  {% for polyline in polylines %}{{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }} = new {{ polyline }};
+  {{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});
+  {% for event in polyline.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_polyline{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
+  {% if calc_zoom %}path={{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.getPath(); for(i=0; i<path.length(); i++){ bounds.extend(path[i]); }{% endif %}{% endfor %}
+  {% for marker in markers %}{{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }} = new {{ marker }};
+  {{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});
+  {% for event in marker.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_marker{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
+  {% if calc_zoom %}bounds.extend({{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }}.getPosition());{% endif %}{% endfor %}
+  {% if calc_zoom %}{{ js_module }}.{{ dom_id }}.fitBounds(bounds);{% endif %}
+  {% block load_extra %}{% endblock %}
 }
-{% endblock load %}{% endblock functions %}{% endlocalize %}{% endautoescape %}
+{% endblock load %}{% endblock functions %}{% endautoescape %}
