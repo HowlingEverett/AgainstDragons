@@ -125,7 +125,7 @@ class TripDetailView(DetailView):
             context['map'] = GoogleMap(
                 api_url="http://maps.googleapis"\
                         ".com/maps/api/js?sensor=true&amp;key="
-                , polylines=[v3_polyline])
+                , polylines=[polyline])
         else:
             context['map'] = GoogleMap(
                 api_url="http://maps.googleapis"\
