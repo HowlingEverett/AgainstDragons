@@ -62,7 +62,7 @@ def configure_deployment():
     with cd(env.project_root):
         run("source ../bin/activate")
         sudo("chmod 755 manage.py")
-        run("./manage.py collectstatic -v0 --noinput")
+        run("./manage.py collectstatic --noinput")
         sudo("/etc/init.d/againstdragons reload")
         
 
