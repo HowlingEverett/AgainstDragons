@@ -176,7 +176,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         else:
             trip.duration = 0.0
 
-        linepoints = [s.location for s in linesamples]
+        linepoints = [s.location for s in samples]
         trip.path = LineString(linepoints)
         trip.distance = trip.path.length
         trip.save()
