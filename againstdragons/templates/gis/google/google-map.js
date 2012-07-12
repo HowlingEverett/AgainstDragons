@@ -24,7 +24,7 @@
   {% for polyline in polylines %}{{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }} = new google.maps.Polyline({ path:{{ polyline.latlngs }}, strokeColor:"{{ polyline.color }}", strokeWeight:{{ polyline.weight }}, strokeOpacity:{{ polyline.opacity }} });
   {{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});
   {% for event in polyline.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_polyline{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
-  {% if calc_zoom %}path={{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.getPath(); for(i=0; i<path.length(); i++){ bounds.extend(path[i]); }{% endif %}{% endfor %}
+  {% if calc_zoom %}path={{ js_module }}.{{ dom_id }}_polyline{{ forloop.counter }}.getPath(); for(i=0; i<path.getLength(); i++){ bounds.extend(path.getAt(i)); }{% endif %}{% endfor %}
   {% for marker in markers %}{{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }} = new {{ marker }};
   {{ js_module }}.{{ dom_id }}_marker{{ forloop.counter }}.setMap({{ js_module }}.{{ dom_id }});
   {% for event in marker.events %}GEvent.addListener({{ js_module }}.{{ dom_id }}_marker{{ forloop.parentloop.counter }}, {{ event }}); {% endfor %}
