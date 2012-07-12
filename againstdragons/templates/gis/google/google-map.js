@@ -4,10 +4,8 @@
 {% block load %}{{ js_module }}.{{ dom_id }}_load = function(){
   var map_options = {
     zoom: {{ zoom }},
-    keyboardShortcuts: {{ keyboard_shortcuts }},
     {% if max_zoom %}maxZoom: {{ max_zoom }},{% endif %}
     {% if min_zoom %}minZoom: {{ min_zoom }},{% endif %}
-    streetViewControl: {{ street_view_control }},
     {% if overview_map_control %}overviewMapControl: true,{% endif %}
     {% if pan_control %}panControl: true,{% endif %}
     {% if disable_double_click_zoom %}disableDoubleClickZoom: true,{% endif %}
