@@ -8,7 +8,7 @@ env.project_root = '/home/justin/sites/againstdragons.usdlc.net/againstdragons'
 
 def test():
     with settings(warn_only=True):
-        result = local("./manage.py test snapshots")
+        result = local("./manage.py test geosurvey")
     if result.failed and not confirm("Tests failed. Continue anyway?"):
         abort("Aborting at user request.")
 
@@ -19,7 +19,7 @@ def push():
     local("git push")
 
 def github():
-    test()
+#    test()
     commit()
     push()
 
@@ -67,6 +67,8 @@ def configure_deployment():
         
 
 def deploy():
+    github()
+
     with settings(warn_only=True):
         result = run('cd %s' % env.project_root)
         if result.failed:
