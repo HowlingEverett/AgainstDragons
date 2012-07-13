@@ -50,7 +50,7 @@ class APILoginView(JSONAPIResponseMixin, View):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-            return self.success_response({'success': 'User logged in.'})
+            return self.success_response({'success': {'message': 'User logged in.', 'fields': {'username': username, 'email': user.email}}})
         else:
             return HttpResponse
             return self.error_response(
@@ -76,8 +76,7 @@ class APIRegisterView(JSONAPIResponseMixin, View):
         if user:
             login(request, user)
 
-        return self.success_response(
-                {'success': 'User created and logged in successfully'})
+        return self.success_response({'success': {'message': 'User created and logged in successfully', 'fields': {'username': username, 'email': email}}})
 
 
 class BatchSampleUploadView(JSONAPIResponseMixin, View):
