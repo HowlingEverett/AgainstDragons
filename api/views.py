@@ -78,6 +78,13 @@ class APIRegisterView(JSONAPIResponseMixin, View):
 
         return self.success_response({'success': {'message': 'User created and logged in successfully', 'fields': {'username': username, 'email': email}}})
 
+class APILogoutView(JSONAPIResponseMixin, View):
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return self.success_response({'success': {'message': 'User logged out.'}})
+
 
 class BatchSampleUploadView(JSONAPIResponseMixin, View):
     """ Performs a batch create of GeographicalSamples for a single trip
