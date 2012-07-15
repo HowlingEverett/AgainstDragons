@@ -164,3 +164,5 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 4194304

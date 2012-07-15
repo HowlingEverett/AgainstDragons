@@ -169,3 +169,5 @@ LOGGING = {
 
 GOOGLE_MAPS_API_KEY = "AIzaSyBSU96H6Gjy6P-83qGromu2CkuTl49Zb2U"
 GOOGLE_MAPS_URL="http://maps.googleapis.com/maps/api/js?sensor=true&amp;key="
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 4194304

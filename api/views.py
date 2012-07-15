@@ -11,8 +11,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
-
+import gzip
 from django.contrib.gis.geos import Point
+import zlib
 
 from geosurvey.models import *
 
@@ -117,11 +118,11 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 '
             }
         """
-        payload = json.loads(request.body)
-#        payload_content = self._load_json_batch(request.FILES['payload'])
-#        if not payload_content:
-#            return self.error_response(['Invalid payload file or payload too large (> 2.5MB)'])
-#        payload = json.loads(payload_content)
+#        payload = json.loads(request.body)
+        payload_content = self._load_json_batch(request.FILES['payload'])
+        if not payload_content:
+            return self.error_response(['Invalid payload file or payload too large (> 4MB)'])
+        payload = json.loads(payload_content)
         trips = payload.get('trips')
         if not trips:
             return self.error_response(['No trips included in request body.'])
@@ -185,7 +186,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
             trip.duration = duration.total_seconds() / 60
         else:
             trip.duration = 0.0
-        sorted(samples, key=lambda sample: sample.timestamp)
+        samples = sorted(samples, key=lambda sample: sample.timestamp)
         linepoints = [s.location for s in samples]
         trip.path = LineString(linepoints)
         trip.distance = trip.path.length
@@ -193,13 +194,18 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
 
         return samples
 
-#
-#    def _load_json_batch(self, json_file):
-#        # FIXME: larger than 2.5MB file handling
-#        if not json_file.multiple_chunks():
-#            return json_file.read()
-#
-#        return None
+
+    def _load_json_batch(self, json_file):
+        jsonstr = ""
+        if not json_file.multiple_chunks():
+            zipped = gzip.GzipFile(fileobj=json_file)
+            jsonstr = zipped.read()
+        else:
+            for chunk in json_file.chunks():
+                jsonstr += chunk
+            jsonstr = zlib.decompress(jsonstr)
+
+        return jsonstr
 
 
 class ApiIndexView(TemplateView):
