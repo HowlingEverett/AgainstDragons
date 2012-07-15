@@ -66,7 +66,6 @@ def configure_deployment():
         
 
 def deploy():
-    github()
 
     with settings(warn_only=True):
         result = run('cd %s' % env.project_root)
