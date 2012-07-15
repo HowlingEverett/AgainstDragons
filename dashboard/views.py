@@ -120,7 +120,7 @@ class TripDetailView(DetailView):
 
         context['samples'] = samples
         if self.get_object().path:
-            polyline = GPolyline(self.get_object().path)
+            polyline = GPolyline(self.get_object().path, weight=4, opacity=0.5)
             polyline.latlngs = polyline.latlngs.replace("GLatLng", "google.maps.LatLng")
             context['map'] = GoogleMap(
                 api_url="http://maps.googleapis"\

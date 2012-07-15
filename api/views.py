@@ -185,12 +185,12 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
             trip.duration = duration.total_seconds() / 60
         else:
             trip.duration = 0.0
-
+        sorted(samples, key=lambda sample: sample.timestamp)
         linepoints = [s.location for s in samples]
         trip.path = LineString(linepoints)
         trip.distance = trip.path.length
         trip.save()
-        sorted(samples, key=lambda sample: sample.timestamp)
+
         return samples
 
 #
