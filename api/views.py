@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.utils import simplejson as json
 from datetime import datetime, date
+from dateutil import parser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods, require_GET
@@ -147,7 +148,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
 
     def _create_trip(self, trip_dict, request):
         trip = Trip(
-            date=datetime.strptime(trip_dict['date'], '%Y-%m-%d %z').date(),
+            date=parser.parse(trip_dict['date']),
             duration=float(trip_dict['duration']),
             description=trip_dict['description'],
             participant=request.user,
@@ -166,8 +167,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
             geosample = GeographicalSample(
                 location=Point(float(sample['longitude']),
                                float(sample['latitude']), srid=4326),
-                timestamp=datetime.strptime(sample['timestamp'],
-                                            '%Y-%m-%d %H:%M:%S %z'),
+                timestamp=parser.parse(sample['timestamp']),
                 speed=sample.get('speed', None),
                 heading=sample.get('heading', None),
                 location_accuracy=sample.get('location_accuracy', None),
