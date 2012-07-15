@@ -161,7 +161,7 @@ class CSVDumpView(ListView):
 class TripExportView(CSVDumpView):
     def get_queryset(self):
         trip = Trip.objects.get(pk=self.kwargs['pk'])
-        return trip.geographicalsamples_set.all().order_by(
+        return trip.geographicalsample_set.all().order_by(
             'participant__pk', 'timestamp')
 
 
