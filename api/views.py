@@ -198,11 +198,11 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
     def _load_json_batch(self, json_file):
         jsonstr = ""
         if not json_file.multiple_chunks():
-            jsonstr = zlib.decompress(json_file.read())
-        else:
-            for chunk in json_file.chunks():
-                jsonstr += chunk
-            jsonstr = zlib.decompress(jsonstr)
+            jsonstr = gzip.GzipFile(fileobj=json_file).read()
+#        else:
+#            for chunk in json_file.chunks():
+#                jsonstr += chunk
+#            jsonstr = zlib.decompress(jsonstr)
 
         return jsonstr
 
