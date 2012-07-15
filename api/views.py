@@ -147,7 +147,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
 
     def _create_trip(self, trip_dict, request):
         trip = Trip(
-            date=datetime.strptime(trip_dict['date'], '%Y-%m-%d').date(),
+            date=datetime.strptime(trip_dict['date'], '%Y-%m-%d %z').date(),
             duration=float(trip_dict['duration']),
             description=trip_dict['description'],
             participant=request.user,
@@ -167,7 +167,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 location=Point(float(sample['longitude']),
                                float(sample['latitude']), srid=4326),
                 timestamp=datetime.strptime(sample['timestamp'],
-                                            '%Y-%m-%d %H:%M:%S'),
+                                            '%Y-%m-%d %H:%M:%S %z'),
                 speed=sample.get('speed', None),
                 heading=sample.get('heading', None),
                 location_accuracy=sample.get('location_accuracy', None),
@@ -190,8 +190,9 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         trip.path = LineString(linepoints)
         trip.distance = trip.path.length
         trip.save()
-
+        sorted(samples, key=lambda sample: sample.timestamp)
         return samples
+
 #
 #    def _load_json_batch(self, json_file):
 #        # FIXME: larger than 2.5MB file handling
