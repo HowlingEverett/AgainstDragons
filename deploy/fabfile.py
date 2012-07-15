@@ -60,9 +60,8 @@ def create_initd():
 
 def configure_deployment():
     with cd(env.project_root):
-        run("source ../bin/activate")
         sudo("chmod 755 manage.py")
-        run("./manage.py collectstatic --noinput")
+        run("%s/bin/python manage.py collectstatic --noinput -v0" % code_dir)
         sudo("/etc/init.d/againstdragons reload")
         
 

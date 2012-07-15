@@ -116,7 +116,11 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 '
             }
         """
-        payload = json.loads(request.body)
+#        payload = json.loads(request.body)
+        payload_content = self._load_json_batch(request.FILES['payload'])
+        if not payload_content:
+            return self.error_response(['Invalid payload file or payload too large (> 2.5MB)'])
+        payload = json.loads()
         trips = payload.get('trips')
         if not trips:
             return self.error_response(['No trips included in request body.'])
@@ -188,6 +192,13 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         trip.save()
 
         return samples
+
+    def _load_json_batch(self, json_file):
+        # FIXME: larger than 2.5MB file handling
+        if not json_file.multiple_chunks():
+            return json_file.read()
+
+        return None
 
 
 class ApiIndexView(TemplateView):
