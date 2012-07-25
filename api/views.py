@@ -152,6 +152,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
             date=parser.parse(trip_dict['date']),
             duration=float(trip_dict['duration']),
             description=trip_dict['description'],
+            distance=float(trip_dict['distance']),
             participant=request.user,
             survey=Survey.objects.get(pk=trip_dict['survey_id'])
         )
@@ -189,7 +190,6 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
         samples = sorted(samples, key=lambda sample: sample.timestamp)
         linepoints = [s.location for s in samples]
         trip.path = LineString(linepoints)
-        trip.distance = trip.path.length
         trip.save()
 
         return samples

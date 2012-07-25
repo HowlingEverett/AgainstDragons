@@ -47,7 +47,7 @@
                         <th>Timestamp</th>
                         <th>Location</th>
                         <th>Location Accuracy</th>
-                        <th>Speed</th>
+                        <th>Speed (km/h)</th>
                         <th>Heading</th>
                         <th>Heading Accuracy</th>
                     </tr>
@@ -58,7 +58,7 @@
                             <td>{{ sample.timestamp }}</td>
                             <td>{{ sample.location.y }}, {{ sample.location.x }}</td>
                             <td>{{ sample.location_accuracy|floatformat:2 }}</td>
-                            <td>{{ sample.speed|floatformat:2 }}</td>
+                            <td>{{ sample.speed_in_kilometres_per_hour|floatformat:2 }}</td>
                             <td>{{ sample.heading|floatformat:2 }}</td>
                             <td>{{ sample.heading_accuracy|floatformat:2 }}</td>
                         </tr>

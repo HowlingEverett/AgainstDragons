@@ -39,6 +39,9 @@ class GeographicalSample(models.Model):
             self.clean_heading()
         super(GeographicalSample, self).clean()
 
+    def speed_in_kilometres_per_hour(self):
+        return self.speed * 3.6
+
 class Transport(models.Model):
     """ Model representing a mode of transport applicable to a trip. Each trip can
         have multiple modes of transport, so this is a many-to-many relationship.
