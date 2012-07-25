@@ -92,7 +92,7 @@
                         <tr>
                             <td>{{ trip.date }}</td>
                             <td>{{ trip.description }}</td>
-                            <td>{{ trip.distance|floatformat:2 }}</td>
+                            <td>{{ trip.distance_in_km|floatformat:2 }}</td>
                             <td>{{ trip.duration|floatformat:2 }}</td>
                             <td>
                                 {% for mode in trip.transport_modes.all %}

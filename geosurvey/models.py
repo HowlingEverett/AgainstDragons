@@ -82,6 +82,9 @@ class Trip(models.Model):
         permissions = (
             ('view_trip', "Can view the trip"),
         )
+
+    def distance_in_km(self):
+        return self.distance / 1000.0
         
 class Survey(models.Model):
     """ Represents a geographical survey, with a defined 
