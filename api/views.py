@@ -15,6 +15,7 @@ import gzip
 from django.contrib.gis.geos import Point
 
 from geosurvey.models import GeographicalSample, Trip, Survey, SurveyResponse
+from django.contrib.auth.models import User
 
 
 class BaseAPIResponseMixin(object):
