@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
+from datetime import datetime
 
 class GeographicalSample(models.Model):
     """ Represents a single geographical point sample in a survey, retrieved
@@ -120,6 +121,7 @@ class SurveyResponse(models.Model):
     """
     Represents a response to a multiple choice survey question.
     """
+
     question = models.CharField(max_length=144)
     response = models.CharField(max_length=40)
     question_group = models.CharField(max_length=40)
@@ -132,7 +134,6 @@ class SurveyResponse(models.Model):
 from django.test import TestCase
 from django.contrib.gis.geos import Point
 from django.db import IntegrityError
-from datetime import datetime
 from django.utils.timezone import utc
 
 class GeoSurveyModelTests(TestCase):
