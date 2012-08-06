@@ -123,7 +123,7 @@ class SurveyResponse(models.Model):
     """
 
     question = models.CharField(max_length=144)
-    response = models.CharField(max_length=40)
+    response = models.CharField(max_length=144)
     question_group = models.CharField(max_length=40)
     participant = models.ForeignKey(User)
     answered_on = models.DateTimeField(default=datetime.now())
