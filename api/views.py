@@ -5,17 +5,16 @@ from django.views.generic.base import View
 from django.views.generic import TemplateView
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.utils import simplejson as json
-from datetime import datetime, date
+from datetime import datetime
 from dateutil import parser
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_http_methods, require_GET
+from django.views.decorators.http import  require_GET
 from django.views.decorators.csrf import csrf_exempt
 import gzip
 from django.contrib.gis.geos import Point
-import zlib
 
-from geosurvey.models import *
+from geosurvey.models import GeographicalSample, Trip, Survey, SurveyResponse
 
 
 class BaseAPIResponseMixin(object):
@@ -206,6 +205,35 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
 
         return jsonstr
 
+def load_json_batch(json_file):
+    jsonstr = ""
+    if not json_file.multiple_chunks():
+        jsonstr = gzip.GzipFile(mode='rb', fileobj=json_file).read()
+    return jsonstr
+
+class SurveyResponseUploadView(JSONAPIResponseMixin, View):
+
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        payload_content = load_json_batch(request.FILES['payload'])
+        if not payload_content:
+            return self.error_response(['Invalid payload file or payload too large (> 4MB)'])
+        payload = json.loads(payload_content)
+        responses = payload.get('responses')
+        survey = Survey.objects.get(pk=payload['survey_id'])
+
+        for response_data in responses:
+            response = SurveyResponse()
+            response.question = response_data['question']
+            response.response = response_data['answer']
+            response.question_group = response_data['group_name']
+            response.participant = request.user
+            response.survey = survey
+            response.save()
+
+        return self.success_response({'success': 'Survey responses successfully saved'})
+
 
 class ApiIndexView(TemplateView):
     template_name = 'api/index.html'
@@ -215,6 +243,10 @@ class SurveyListView(View):
     @method_decorator(require_GET)
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        """
+        Performs bulk creation of survey responses for this user, based on what
+        they've selected in the
+        """
         surveys = Survey.objects.filter(
             end_date__gte=datetime.today()).order_by('end_date')
         return HttpResponse(serializers.serialize('json', surveys),

@@ -116,12 +116,24 @@ class Researchers(Group):
     """
     pass
 
+class SurveyResponse(models.Model):
+    """
+    Represents a response to a multiple choice survey question.
+    """
+    question = models.CharField(max_length=144)
+    response = models.CharField(max_length=40)
+    question_group = models.CharField(max_length=40)
+    participant = models.ForeignKey(User)
+    survey = models.ForeignKey(Survey)
+    answered_on = models.DateTimeField(default=datetime.now())
+
+
+
 # Model tests
 from django.test import TestCase
-from django.contrib.gis.geos import Point, LineString
+from django.contrib.gis.geos import Point
 from django.db import IntegrityError
-from django.core.exceptions import ValidationError
-from datetime import datetime, date
+from datetime import datetime
 from django.utils.timezone import utc
 
 class GeoSurveyModelTests(TestCase):
