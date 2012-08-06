@@ -62,7 +62,7 @@ def configure_deployment():
     with cd(env.project_root):
         sudo("chmod 755 manage.py")
         run("%s/bin/python manage.py collectstatic --noinput -v0" % code_dir)
-        sudo("/etc/init.d/againstdragons reload")
+        sudo("pkill python; %s/bin/python manage.py run_gunicorn -D -p /tmp/gunicorn_againstdragons.pid --user=www-data --group=www-data --error-logfile=/var/log/gunicorn/gunicorn.log 127.0.0.1:9006")
         
 
 def deploy():
