@@ -221,7 +221,6 @@ class SurveyResponseUploadView(JSONAPIResponseMixin, View):
             return self.error_response(['Invalid payload file or payload too large (> 4MB)'])
         payload = json.loads(payload_content)
         responses = payload.get('responses')
-        survey = Survey.objects.get(pk=payload['survey_id'])
 
         for response_data in responses:
             response = SurveyResponse()
