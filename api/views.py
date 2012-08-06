@@ -229,7 +229,6 @@ class SurveyResponseUploadView(JSONAPIResponseMixin, View):
             response.response = response_data['answer']
             response.question_group = response_data['group_name']
             response.participant = request.user
-            response.survey = survey
             response.save()
 
         return self.success_response({'success': 'Survey responses successfully saved'})

@@ -124,7 +124,6 @@ class SurveyResponse(models.Model):
     response = models.CharField(max_length=40)
     question_group = models.CharField(max_length=40)
     participant = models.ForeignKey(User)
-    survey = models.ForeignKey(Survey)
     answered_on = models.DateTimeField(default=datetime.now())
 
 
