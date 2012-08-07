@@ -1,5 +1,6 @@
 # Create your views here.
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.gis.geos.linestring import LineString
 from django.core import serializers
 from django.views.generic.base import View
 from django.views.generic import TemplateView
