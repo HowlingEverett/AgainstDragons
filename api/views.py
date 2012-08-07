@@ -150,7 +150,7 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
     def _create_trip(self, trip_dict, request):
         trip = Trip(
             date=parser.parse(trip_dict['date']),
-            duration=float(trip_dict['duration']),
+            duration=float(trip_dict.get('duration', 0.0)),
             description=trip_dict['description'],
             distance=float(trip_dict['distance']),
             participant=request.user,
