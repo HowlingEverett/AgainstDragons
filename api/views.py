@@ -174,7 +174,6 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 speed=sample.get('speed', None),
                 heading=sample.get('heading', None),
                 location_accuracy=sample.get('location_accuracy', None),
-                heading_accuracy=sample.get('heading_accuracy', None),
                 trip=trip,
                 participant=request.user
             )
