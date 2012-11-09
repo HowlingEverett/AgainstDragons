@@ -108,7 +108,7 @@ ROOT_URLCONF = 'againstdragons.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'againstdragons.wsgi.application'
 
-TEMPLATE_DIRS = ('/home/admin/sites/atlas.uq.edu.au/atlas/againstdragons/againstdragons/templates',)
+TEMPLATE_DIRS = ('/home/admin/sites/atlas.uq.edu.au/atlas/againstdragons/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

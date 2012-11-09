@@ -23,8 +23,8 @@ def github():
     commit()
     push()
 
-repo_dir = '/home/justin/src'
-code_dir = '/home/justin/sites/againstdragons.usdlc.net'
+repo_dir = '/home/admin/src'
+code_dir = '/home/admin/sites/atlas.zones.eait.uq.edu.au'
 
 def unarchive_latest():
     with cd(repo_dir):
@@ -32,7 +32,7 @@ def unarchive_latest():
         run("rm -rf %s" % env.project_root)
         run("tar xvzf master && mv HowlingEverett-AgainstDragons* %s" % env.project_root)
         run("rm -rf master")
-        run("mv %s/deploy/settings_joyent.py %s/atlas/settings.py" % (env.project_root, env.project_root))
+        run("mv %s/deploy/settings_joyent.py %s/againstdragons/settings.py" % (env.project_root, env.project_root))
 
 def create_virtualenv():
     with cd('/home/admin/sites'):
@@ -61,8 +61,8 @@ def create_initd():
 def configure_deployment():
     with cd(env.project_root):
         sudo("chmod 755 manage.py")
-        run("%s/bin/python manage.py collectstatic --noinput -v0" % code_dir)
-        sudo("pkill python; %s/bin/python manage.py run_gunicorn -D -p /tmp/gunicorn_againstdragons.pid --user=admin --group=admin --error-logfile=/var/log/gunicorn/gunicorn.log 127.0.0.1:9006" % code_dir)
+        run("python manage.py collectstatic --noinput -v0")
+        sudo("pkill python; python manage.py run_gunicorn -D -p /tmp/gunicorn_againstdragons.pid --user=www --group=www --error-logfile=/var/log/gunicorn/gunicorn.log 127.0.0.1:8000")
         
 
 def deploy():
