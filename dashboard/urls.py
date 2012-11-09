@@ -15,17 +15,17 @@ urlpatterns = patterns('',
     )), name="survey_list"),
 
     # Survey CRUD
-    url(r'^survey/create/$', permission_required('geosurvey.can_create_survey')(CreateView.as_view(
+    url(r'^survey/create/$', permission_required('geosurvey.add_survey')(CreateView.as_view(
         model=Survey,
         template_name='dashboard/survey_form.html',
         success_url=reverse_lazy('survey_list'),
     )), name="survey_create"),
-    url(r'^survey/(?P<pk>\d+)/edit/$', permission_required('geosurvey.can_update_survey')(UpdateView.as_view(
+    url(r'^survey/(?P<pk>\d+)/edit/$', permission_required('geosurvey.change_survey')(UpdateView.as_view(
         model=Survey,
         template_name='dashboard/survey_form.html',
         success_url=reverse_lazy('survey_list'),
     )), name="survey_edit"),
-    url(r'^survey/(?P<pk>\d+)/delete/$', permission_required('geosurvey.can_delete_survey')(DeleteView.as_view(
+    url(r'^survey/(?P<pk>\d+)/delete/$', permission_required('geosurvey.delete_survey')(DeleteView.as_view(
         model=Survey,
         success_url=reverse_lazy('survey_list'),
     )), name="survey_delete"),

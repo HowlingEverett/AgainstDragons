@@ -149,10 +149,16 @@ class BatchSampleUploadView(JSONAPIResponseMixin, View):
                 {'success': 'Trips successfully uploaded to survey.'})
 
     def _create_trip(self, trip_dict, request):
+        start_time = parser.parse(trip_dict['start_time'])
+        end_time = parser.parse(trip_dict['end_time'])
+        duration = (end_time - start_time).total_seconds()
+        
         trip = Trip(
             date=parser.parse(trip_dict['date']),
-            duration=float(trip_dict.get('duration', 0.0)),
-            description=trip_dict['description'],
+            start_time = start_time,
+            end_time = end_time,
+            duration = duration,
+            description = trip_dict['description'],
             distance=float(trip_dict['distance']),
             participant=request.user,
             survey=Survey.objects.get(pk=trip_dict['survey_id'])

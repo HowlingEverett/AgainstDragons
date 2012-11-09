@@ -65,6 +65,8 @@ class Trip(models.Model):
     
     """
     date = models.DateField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     description = models.CharField(max_length=100)
     duration = models.FloatField(validators=[MinValueValidator(0.01)])
     path = models.LineStringField(null=True,blank=True)
@@ -86,6 +88,13 @@ class Trip(models.Model):
 
     def distance_in_km(self):
         return self.distance / 1000.0
+
+    def formatted_duration(self):
+        dur = (self.end_time - self.start_time).total_seconds()
+        hours = int(dur) / 60 / 60
+        mins = int(dur - (hours * 60 * 60)) / 60
+        seconds = int(dur - (hours * 60 * 60) - (mins * 60))
+        return "{0}h {1}m {2}s".format(hours, mins, seconds)
         
 class Survey(models.Model):
     """ Represents a geographical survey, with a defined 
