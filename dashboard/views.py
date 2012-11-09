@@ -82,19 +82,20 @@ class SurveyDetailView(DetailView):
         context['trips'] = trips
 
         all_trips = Trip.objects.filter(survey__exact=self.get_object())
-        context['avg_duration'] = all_trips.aggregate(Avg('duration'))[
-                                  'duration__avg'] / 60.0
-        context['max_duration'] = all_trips.aggregate(Max('duration'))[
-                                  'duration__max'] / 60.0
-        context['min_duration'] = all_trips.aggregate(Min('duration'))[
-                                  'duration__min'] / 60.0
+        if len(all_trips) > 1:
+            context['avg_duration'] = all_trips.aggregate(Avg('duration'))[
+                                              'duration__avg'] / 60.0
+            context['max_duration'] = all_trips.aggregate(Max('duration'))[
+                                      'duration__max'] / 60.0
+            context['min_duration'] = all_trips.aggregate(Min('duration'))[
+                                      'duration__min'] / 60.0
 
-        context['avg_distance'] = all_trips.aggregate(Avg('distance'))[
-                                  'distance__avg'] / 1000.0
-        context['max_distance'] = all_trips.aggregate(Max('distance'))[
-                                  'distance__max'] / 1000.0
-        context['min_distance'] = all_trips.aggregate(Min('distance'))[
-                                  'distance__min'] / 1000.0
+            context['avg_distance'] = all_trips.aggregate(Avg('distance'))[
+                                      'distance__avg'] / 1000.0
+            context['max_distance'] = all_trips.aggregate(Max('distance'))[
+                                      'distance__max'] / 1000.0
+            context['min_distance'] = all_trips.aggregate(Min('distance'))[
+                                      'distance__min'] / 1000.0
 
         context['participants'] = User.objects.all()
 
