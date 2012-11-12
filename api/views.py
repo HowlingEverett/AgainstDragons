@@ -34,7 +34,7 @@ class JSONAPIResponseMixin(BaseAPIResponseMixin):
                      'field_errors': {'field1':'error desc',
                      'field2': 'error_desc}}"
         """
-        error_dict = {'request_errors': request_errors}
+        error_dict = request_errors
         if field_errors:
             error_dict += {'field_errors': field_errors}
         return HttpResponseBadRequest(json.dumps(error_dict),
