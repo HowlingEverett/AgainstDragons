@@ -34,7 +34,9 @@ class JSONAPIResponseMixin(BaseAPIResponseMixin):
                      'field_errors': {'field1':'error desc',
                      'field2': 'error_desc}}"
         """
-        error_dict = {'request_errors': None}
+        error_dict = {'request_errors': request_errors}
+        if field_errors:
+            error_dict += {'field_errors': field_errors}
         return HttpResponseBadRequest(json.dumps(error_dict),
                                       content_type="text/json")
 
@@ -55,7 +57,6 @@ class APILoginView(JSONAPIResponseMixin, View):
             login(request, user)
             return self.success_response({'success': {'message': 'User logged in.', 'fields': {'username': username, 'email': user.email}}})
         else:
-            return HttpResponse
             return self.error_response(
                     {'error': 'Incorrect username or password.'})
 
